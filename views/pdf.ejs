@@ -1,0 +1,31 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+  
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Upload resumes</title> 
+</head> 
+  
+<body> 
+    <h1>To Upload resume on mongoDB</h1> 
+    <hr> 
+    <div> 
+        <form action="/resumes" method="POST" enctype="multipart/form-data"> 
+            <div> 
+                <label for="resumefile">Upload PDF </label> 
+                <input type="file" id="resumefile" 
+                       name="resumefile" value="" required> 
+            </div> 
+            <div> 
+                <button type="submit">Submit</button> 
+            </div> 
+        </form> 
+    </div> 
+  
+    <hr> 
+  
+    
+</body> 
+  
+</html>
