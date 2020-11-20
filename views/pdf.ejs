@@ -11,7 +11,17 @@
     <h1>To Upload resume on mongoDB</h1> 
     <hr> 
     <div> 
-        <form action="/resumes" method="POST" enctype="multipart/form-data"> 
+        <form action="/resumes/upload" method="POST" enctype="multipart/form-data"> 
+            <div> 
+                <label for="resume_owner">Owner</label> 
+                <input type="text" id="resume_owner" 
+                       name="resume_owner" value="" required> 
+            </div>
+            <div> 
+                <label for="resume_content">Resume Content</label> 
+                <input type="text" id="resume_content" 
+                       name="resume_content" value="" required> 
+            </div>
             <div> 
                 <label for="resumefile">Upload PDF </label> 
                 <input type="file" id="resumefile" 

@@ -3,7 +3,7 @@ const router = express.Router()
 import ResumeController from '../controllers/ResumeController.js'
 import multer from 'multer'
 
-//
+//SET UP FILE UPLOAD AND LOCAL STORAGE
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads')
@@ -13,17 +13,21 @@ let storage = multer.diskStorage({
     }
 });
 
-//
-let upload = multer({
-    storage: storage
-});
+//BUFFERED FILE TO UPLOAD
+let upload = multer({storage});
 
+//
 const resumeController = new ResumeController();
 
-//ALL JOBS
+//GET ALL RESUMES
 router.get('/', resumeController.getAllResumes);
 
-//SUBMIT NEW JOB
-router.post("/", upload.single("resumefile"), resumeController.addResume);
+//SUBMIT NEW RESUME
+router.post("/upload", upload.single("resumefile"), resumeController.addResume);
+router.get("/upload", (req, res) => {
+    res.render('pdf')
+});
+
+//
 
 export default router;
