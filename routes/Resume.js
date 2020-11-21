@@ -28,6 +28,8 @@ router.get("/upload", (req, res) => {
     res.render('pdf')
 });
 
-//
+//DOWNLOAD A RESUME
+router.get("/download", resumeController.downloadResume);
+
 
 export default router;

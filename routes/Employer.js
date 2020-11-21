@@ -10,6 +10,7 @@ router.get('/', employerController.getAllEmployers);
 
 //SUBMIT NEW EMPLOYER
 router.post("/", employerController.addEmployer);
+
 //SUBMIT NEW JOB
 router.post("/:employerID/post_job", employerController.postJob);
 export default router;

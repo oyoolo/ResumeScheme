@@ -9,14 +9,12 @@
   
 <body> 
     <h1>To Upload resume on mongoDB</h1> 
+    <% if (name) { %>
+        <h3><%= name %></h3>
+      <% } %>
     <hr> 
     <div> 
-        <form action="/resumes/upload" method="POST" enctype="multipart/form-data"> 
-            <div> 
-                <label for="resume_owner">Owner</label> 
-                <input type="text" id="resume_owner" 
-                       name="resume_owner" value="" required> 
-            </div>
+        <form action="/jobseekers/:jobSeekerID/submit_resume" method="POST" enctype="multipart/form-data"> 
             <div> 
                 <label for="resume_content">Resume Content</label> 
                 <input type="text" id="resume_content" 
@@ -30,7 +28,11 @@
             <div> 
                 <button type="submit">Submit</button> 
             </div> 
-        </form> 
+        </form>
+        
+        <form action="/jobseekers/:jobSeekerID/download_resume" method="GET">
+            <input type="submit" value="Download File" />
+        </form>
     </div> 
   
     <hr> 

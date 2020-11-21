@@ -45,6 +45,7 @@ class EmployerController {
             const employer = await Employer.findById(req.params.employerID);
             const input = {
                 company_name: employer.company_name,
+                company_id: req.params.employerID,
                 job_title: req.body.job_title,
                 job_description: req.body.job_description,
                 job_requirements: req.body.job_requirements,

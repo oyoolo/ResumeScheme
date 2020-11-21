@@ -8,7 +8,7 @@ const joiSchema = Joi.object().keys({
     resume_content: Joi.string(),
     resume_file: Joi.object({
         data: Buffer,
-        originalname: Joi.string()
+        metadata: Joi.object()
     }).required()
 })
 
