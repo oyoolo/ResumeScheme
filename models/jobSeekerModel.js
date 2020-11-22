@@ -8,15 +8,14 @@ const joiSchema = Joi.object().keys({
             .min(3)
             .max(30)
             .required(),
-            
+
         birth_year: Joi.number()
             .integer()
             .min(1900)
-            .max(2004)
-            .required(),
+            .max(2004),
 
-        password: Joi.string()
-            .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+        password: Joi.string(),
+        // .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
         resume_id: Joi.string(),
         user_email: Joi.string().email().required(),
         phone: Joi.number().integer(),

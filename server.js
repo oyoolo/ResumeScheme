@@ -1,8 +1,18 @@
 import express from 'express';
+import expressLayouts from 'express-ejs-layouts';
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import passport from 'passport';
+import flash from 'connect-flash';
+import session from 'express-session';
 dotenv.config()
 const app = express();
+
+// "test": "node handle-pdf.js",
+    // "dev": "nodemon server.js"
+//Passport config
+import passConfig from './config/passport.js'
+passConfig(passport)
 
 //Middlewares
 app.use(express.urlencoded({
@@ -10,25 +20,58 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
+//Express session
+app.use(
+    session({
+        secret: "secret",
+        resave: true,
+        saveUninitialized: true,
+    })
+);
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Set EJS as templating engine  
+app.use(expressLayouts);
 app.set("view engine", "ejs");
+// let __dirname = path.resolve();
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'jsx');
+// app.engine('jsx', reactviews.createEngine());
+
+
+//Connect flash
+app.use(flash())
+
+// Global variables
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+
 
 //Import routes
 import employerRoute from './routes/Employer.js'
 import jobseekerRoute from './routes/JobSeeker.js'
 import jobRoute from './routes/Job.js'
 import resumeRoute from './routes/Resume.js'
+import homeRoute from './routes/Index.js'
+import userRoute from './routes/User.js'
 
 //Middleware for routes
 app.use('/employers', employerRoute);
 app.use('/jobseekers', jobseekerRoute);
 app.use('/jobs', jobRoute);
 app.use('/resumes', resumeRoute);
+app.use("/", homeRoute)
+app.use("/", homeRoute);
+app.use("/users", userRoute);
 
-//Homepage Route 
-app.get('/', (req, res) => {
-    res.send("Homepage")
-})
+
 
 //Connect to DB
 mongoose.connect(

@@ -24,7 +24,9 @@ router.post("/", jobSeekerController.addJobSeeker);
 
 //SUBMIT RESUME
 // router.get("/:jobSeekerID/myresume", jobSeekerController.getResume);
+// router.get("/:jobSeekerID/submit_resume", jobSeekerController.viewResume);
 router.get("/:jobSeekerID/submit_resume", jobSeekerController.viewResume);
 router.post("/:jobSeekerID/submit_resume", upload.single("resumefile"), jobSeekerController.submitResume);
-
+//
+router.get("/:jobSeekerID/download_resume", jobSeekerController.downloadResume);
 export default router;
