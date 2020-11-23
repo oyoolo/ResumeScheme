@@ -6,10 +6,13 @@ import {ensureAuthenticated, forwardAuthenticated} from '../config/auth.js'
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 
 // Dashboard
-router.get('/dashboard', ensureAuthenticated, (req, res) =>
+router.get('/dashboard', ensureAuthenticated, (req, res) =>{
+  console.log(req.user)
   res.render('jobdashboard', {
     user: req.user
   })
+}
+ 
 );
 
 export default router;
