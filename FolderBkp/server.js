@@ -5,9 +5,7 @@ import dotenv from 'dotenv';
 import passport from 'passport';
 import flash from 'connect-flash';
 import session from 'express-session';
-import path from 'path'
 dotenv.config()
-
 const app = express();
 
 //Passport config
@@ -28,7 +26,6 @@ app.use(
         saveUninitialized: true,
     })
 );
-
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,21 +33,22 @@ app.use(passport.session());
 // Set EJS as templating engine  
 app.use(expressLayouts);
 app.set("view engine", "ejs");
-const __dirname = path.resolve();
-app.set('views', __dirname + '/public/views');
-app.use(express.static(__dirname + '/public'));
+// let __dirname = path.resolve();
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'jsx');
+// app.engine('jsx', reactviews.createEngine());
 
 
 //Connect flash
 app.use(flash())
 
 // Global variables
-app.use((req, res, next) => {
-        res.locals.success_msg = req.flash("success_msg");
-        res.locals.error_msg = req.flash("error_msg");
-        res.locals.error = req.flash("error");
-        next();
-    });
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 
 //Import routes
@@ -68,6 +66,7 @@ app.use('/jobs', jobRoute);
 app.use('/resumes', resumeRoute);
 app.use("/", homeRoute);
 app.use("/users", userRoute);
+
 
 
 //Connect to DB

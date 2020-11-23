@@ -2,16 +2,15 @@ import express from 'express'
 const router = express.Router()
 import bcrypt from 'bcryptjs'
 import passport from 'passport'
-import ejsLint from 'ejs-lint'
 import {forwardAuthenticated} from '../config/auth.js'
 import JobSeekerModel from '../models/jobSeekerModel.js'
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-ejsLint('login', '--preprocessor-include');
+
 // Register Page
 router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
-ejsLint('register', '--preprocessor-include');
+
 
 // Register
 router.post('/register', (req, res) => {

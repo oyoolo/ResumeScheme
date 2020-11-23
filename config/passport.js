@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 const LocalStrategy = Local.Strategy
 
 // Load User model
-import JobSeeker from '../models/jobSeekerModel.js'
+import Employer from '../models/EmployerModel.js'
 
 export default function (passport) {
   passport.use(
@@ -11,8 +11,8 @@ export default function (passport) {
       usernameField: 'email'
     }, async (email, password, done) => {
       // Match user
-      let user = await JobSeeker.findOne({
-        user_email: email
+      let user = await Employer.findOne({
+        company_email: email
       });
 
       if (!user) {
@@ -43,7 +43,7 @@ export default function (passport) {
   });
 
   passport.deserializeUser(async (id, done) => {
-    await JobSeeker.findById(id, (err, user) => {
+    await Employer.findById(id, (err, user) => {
       done(err, user);
       if (err)
         throw err;

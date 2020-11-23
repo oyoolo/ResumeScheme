@@ -3,9 +3,7 @@ import Job from '../models/JobModel.js'
 
 class EmployerController {
     constructor() {
-        this.getAllEmployers.bind(this);
-        this.postJob.bind(this);
-        this.addEmployer.bind(this);
+       
     }
 
     async getAllEmployers(req, res) {
@@ -68,6 +66,106 @@ class EmployerController {
             });
         }
 
+    }
+
+    async register(req, res) {
+        try {
+            const {
+                company_name,
+                company_email,
+                password,
+                password2
+            } = req.body;
+
+            let errors = [];
+
+            if (!company_name || !company_email || !password || !password2) {
+                errors.push({
+                    msg: 'Please enter all fields'
+                });
+            }
+
+            if (password != password2) {
+                errors.push({
+                    msg: 'Passwords do not match'
+                });
+            }
+
+            if (password.length < 3) {
+                errors.push({
+                    msg: 'Password must be at least 6 characters'
+                });
+            }
+
+            if (errors.length > 0) {
+                res.render('employersregister', {
+                    errors,
+                    company_name,
+                    company_email,
+                    password,
+                    password2
+                });
+            } else {
+                const user = await Employer.findOne({
+                    company_email
+                })
+
+
+                if (user) {
+                    errors.push({
+                        msg: 'Email already exists'
+                    });
+                    res.render('employersregister', {
+                        errors,
+                        company_name,
+                        company_email,
+                        password,
+                        password2
+                    });
+                } else {
+                    const newUser = new Employer({
+                        company_name,
+                        company_email,
+                        password
+                    });
+
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) throw err;
+                            newUser.password = hash;
+                            newUser
+                                .save()
+                                .then(user => {
+                                    req.flash(
+                                        'success_msg',
+                                        'You are now registered and can log in'
+                                    );
+                                    res.redirect('/users/login');
+                                })
+                                .catch(err =>
+                                    console.log(err)
+                                );
+                        });
+                    });
+                }
+
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+    
+    login(req , res, next) {
+        try {
+            passport.authenticate('local', {
+              successRedirect: '/employerdashboard',
+              failureRedirect: '/Employers/login',
+              failureFlash: true
+            })(req, res, next);
+        
+          } catch (error) {
+            console.log(error)
+          }
     }
 
 }
