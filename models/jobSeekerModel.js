@@ -16,7 +16,7 @@ const joiSchema = Joi.object().keys({
 
         password: Joi.string(),
         // .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-        resume_id: Joi.string(),
+        resume: Joi.object(),
         user_email: Joi.string().email().required(),
         phone: Joi.number().integer(),
         date: Joi.date().default(Date.now),

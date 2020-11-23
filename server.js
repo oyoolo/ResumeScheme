@@ -8,8 +8,6 @@ import session from 'express-session';
 dotenv.config()
 const app = express();
 
-// "test": "node handle-pdf.js",
-    // "dev": "nodemon server.js"
 //Passport config
 import passConfig from './config/passport.js'
 passConfig(passport)
@@ -53,7 +51,6 @@ app.use(function (req, res, next) {
 });
 
 
-
 //Import routes
 import employerRoute from './routes/Employer.js'
 import jobseekerRoute from './routes/JobSeeker.js'
@@ -67,7 +64,6 @@ app.use('/employers', employerRoute);
 app.use('/jobseekers', jobseekerRoute);
 app.use('/jobs', jobRoute);
 app.use('/resumes', resumeRoute);
-app.use("/", homeRoute)
 app.use("/", homeRoute);
 app.use("/users", userRoute);
 

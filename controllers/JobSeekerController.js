@@ -87,7 +87,7 @@ class JobSeekerController {
                 //     console.log(err)
                 // })
 
-                res.render("pdf")
+                // res.render("pdf")
                 
                 // res.redirect(`/jobseekers/:jobSeekerID/download_resume`)
 
