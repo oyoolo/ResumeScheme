@@ -1,18 +1,24 @@
 
- export function ensureAuthenticated (req, res, next) {
+export function ensureAuthenticated(req, res, next) {
+  try {
     if (req.isAuthenticated()) {
-      return next();
-    }
-    req.flash('error_msg', 'Please log in to continue');
-    res.redirect('/users/login');
-  }
-  export function forwardAuthenticated  (req, res, next) {
-    if (!req.isAuthenticated()) {
+     
       return next();
     }
     
-    res.redirect('/dashboard');
+    req.flash('error_msg', 'Please log in to continue');
+    res.redirect('/login');
+  } catch (error) {
+    console.log(error)
   }
+  
+ 
+}
 
-
-// export default auth;
+export function forwardAuthenticated(req, res, next) {
+  if (!req.isAuthenticated()) {
+    
+    return next();
+  }
+  res.redirect('/dashboard');
+}

@@ -22,5 +22,5 @@ const JobSchema = new mongoose.Schema(
     Joigoose.convert(joiSchema)
     , { collection: 'Jobs' }
 )
-const JobModel = mongoose.model('Job', JobSchema)
-export default JobModel; 
+
+export default mongoose.model('Job', JobSchema); 

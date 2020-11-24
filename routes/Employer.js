@@ -1,8 +1,9 @@
-import Employer from '../models/EmployerModel.js'
 import express from 'express';
-const router = express.Router()
 import EmployerController from '../controllers/EmployerController.js'
-import {forwardAuthenticated} from '../config/auth.js'
+import { ensureAuthenticated } from '../config/auth.js'
+import pkg from 'connect-ensure-login'
+const { ensureLoggedOut } = pkg
+const router = express.Router()
 const employerController = new EmployerController();
 
 //ALL EMPLOYERS
@@ -12,9 +13,17 @@ const employerController = new EmployerController();
 // router.post("/", employerController.addEmployer);
 
 //REGISTER
-router.get("/register", forwardAuthenticated, (req, res) => res.render('employersregister'));
+router.get("/register",
+    ensureLoggedOut("/dashboard"),
+    (req, res) => res.render('employersregister'));
 router.post("/register", employerController.register);
 
+//DASHBOARD
+// router.get('/', ensureAuthenticated, (req, res) => {
+//     res.render('employerdashboard', {
+//         user: req.user
+//     })
+// });
 
 //SUBMIT NEW JOB
 router.post("/:employerID/post_job", employerController.postJob);

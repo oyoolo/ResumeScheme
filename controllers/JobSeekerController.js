@@ -1,4 +1,4 @@
-import JobSeeker from '../models/jobSeekerModel.js'
+import JobSeeker from '../models/JobSeekerModel.js'
 import Resume from '../models/ResumeModel.js'
 import path from 'path'
 import fs from 'fs'

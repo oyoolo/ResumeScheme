@@ -49,6 +49,7 @@ app.use((req, res, next) => {
         res.locals.success_msg = req.flash("success_msg");
         res.locals.error_msg = req.flash("error_msg");
         res.locals.error = req.flash("error");
+        res.locals.isEmployer = false;
         next();
     });
 
@@ -58,7 +59,6 @@ import employerRoute from './routes/Employer.js'
 import jobseekerRoute from './routes/JobSeeker.js'
 import jobRoute from './routes/Job.js'
 import resumeRoute from './routes/Resume.js'
-import homeRoute from './routes/Index.js'
 import userRoute from './routes/User.js'
 
 //Middleware for routes
@@ -66,8 +66,7 @@ app.use('/employers', employerRoute);
 app.use('/jobseekers', jobseekerRoute);
 app.use('/jobs', jobRoute);
 app.use('/resumes', resumeRoute);
-app.use("/", homeRoute);
-app.use("/users", userRoute);
+app.use("/", userRoute);
 
 
 //Connect to DB

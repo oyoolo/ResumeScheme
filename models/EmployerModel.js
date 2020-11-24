@@ -28,7 +28,7 @@ const EmployerSchema = new mongoose.Schema(
     Joigoose.convert(joiSchema)
     , { collection: 'Employers' }
 )
-const EmployerModel = mongoose.model('Employers', EmployerSchema)
-export default EmployerModel;
+
+export default mongoose.model('Employer', EmployerSchema);
 
 

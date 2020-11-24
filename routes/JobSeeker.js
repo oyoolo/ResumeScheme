@@ -1,7 +1,7 @@
 import express from 'express';
 import JobSeekerController from '../controllers/JobSeekerController.js'
 import multer from 'multer'
-import {forwardAuthenticated} from '../config/auth.js'
+import {forwardAuthenticated, ensureAuthenticated} from '../config/auth.js'
 
 const router = express.Router()
 const jobSeekerController = new JobSeekerController();
@@ -19,18 +19,18 @@ let storage = multer.diskStorage({
 //BUFFERED FILE TO UPLOAD
 let upload = multer({storage});
 //ALL JOBSEEKERS
-router.get('/', jobSeekerController.getAllJobSeekers);
+// router.get('/', jobSeekerController.getAllJobSeekers);
 
 //SUBMIT NEW JOBSEEKER
-router.post("/", jobSeekerController.addJobSeeker);
+// router.post("/", jobSeekerController.addJobSeeker);
 
 //JOBSEEKER REGISTRATION
 router.get("/register", forwardAuthenticated, (req, res) => res.render('jobsregister'));
 router.post("/register", jobSeekerController.register);
 
-//JOBSEEKER REGISTRATION
-router.get("/login", jobSeekerController.login);
-router.post('/login', forwardAuthenticated, (req, res) => res.render('login'));
+//JOBSEEKER LOGIN
+// router.get("/login", jobSeekerController.login);
+// router.post('/login', forwardAuthenticated, (req, res) => res.render('login'));
 
 //SUBMIT RESUME
 

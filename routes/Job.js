@@ -8,6 +8,6 @@ const jobController = new JobController();
 router.get('/', jobController.getAllJobs);
 
 //SUBMIT NEW JOB
-router.post("/", jobController.addJob);
+router.post("/postjob", jobController.addJob);
 
 export default router;
