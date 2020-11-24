@@ -4,15 +4,18 @@ const LocalStrategy = Local.Strategy
 
 // Load User model
 import Employer from '../models/EmployerModel.js'
-
+import Jobseeker from '../models/JobSeekerModel.js'
 export default function (passport) {
   passport.use(
     new LocalStrategy({
       usernameField: 'email'
     }, async (email, password, done) => {
       // Match user
-      let user = await Employer.findOne({
+      const user = await Employer.findOne({
         company_email: email
+      }) 
+      || await Jobseeker.findOne({
+        user_email: email
       });
 
       if (!user) {
@@ -43,10 +46,20 @@ export default function (passport) {
   });
 
   passport.deserializeUser(async (id, done) => {
+    
+      
+      await Jobseeker.findById(id, (err, user) => {
+        done(err, user);
+        if (err)
+          throw err;
+      });
+    
     await Employer.findById(id, (err, user) => {
       done(err, user);
       if (err)
         throw err;
     });
+
+
   });
 };

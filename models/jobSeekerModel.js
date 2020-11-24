@@ -28,5 +28,9 @@ const JobSeekerSchema = new mongoose.Schema(
         collection: 'JobSeekers'
     }
 )
-const JobSeekerModel = mongoose.model('JobSeekers', JobSeekerSchema)
-export default JobSeekerModel;
+// const JobSeekerModel = mongoose.model('JobSeeker', JobSeekerSchema)
+// export default JobSeekerModel;
+
+export default (mongoose.models && mongoose.models.JobSeeker
+    ? mongoose.models.JobSeeker
+    : mongoose.model('JobSeeker', JobSeekerSchema));
