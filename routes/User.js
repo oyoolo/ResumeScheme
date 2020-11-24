@@ -1,8 +1,6 @@
 import express from 'express'
 import passport from 'passport'
 import { forwardAuthenticated, ensureAuthenticated } from '../config/auth.js'
-import pkg from 'connect-ensure-login'
-const { ensureLoggedIn} = pkg
 const router = express.Router()
 
 // Welcome Page

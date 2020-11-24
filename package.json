@@ -22,7 +22,6 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "express-session": "^1.17.1",
-    "gridfs-stream": "^1.1.1",
     "joi": "^17.3.0",
     "joigoose": "^8.0.0",
     "mongoose": "^5.10.13",
