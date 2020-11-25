@@ -5,6 +5,14 @@ class JobController {
         this.getAllJobs.bind(this);
     }
 
+    async getById (id){
+        try{
+            const job = await Job.findById(id)
+            return job;
+        }catch(err){
+            console.error(err)
+        }
+    }
     async getAllJobs(req, res) {
         try {
             const jobs = await Job.find();

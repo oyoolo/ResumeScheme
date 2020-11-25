@@ -1,11 +1,26 @@
-import Employer from '../models/EmployerModel.js'
+import Employer from '../models/EmployerModel.js';
+import JobSeeker from "../models/JobSeekerModel.js";
 import Job from '../models/JobModel.js'
+import bcrypt from 'bcryptjs';
 
 class EmployerController {
     constructor() {
-       
+
     }
 
+    async getJobs(req, res) {
+        try {
+
+            let jobs = await Job.find({ company_id: req.user.id })
+
+            res.render('employerdashboard', { employer: req.user, jobs });
+            // res.json({ jobs })
+        } catch (error) {
+            res.json(error)
+        }
+
+
+    }
     async getAllEmployers(req, res) {
         try {
             const employers = await Employer.find();
@@ -19,31 +34,13 @@ class EmployerController {
         }
     }
 
-    async addEmployer(req, res) {
-
-        try {
-            const input = {
-                company_name: req.body.company_name,
-                company_email: req.body.company_email,
-            };
-
-            const employer = new Employer(input);
-            const savedEmployer = await employer.save();
-            console.log('Saved an employer')
-            res.json(savedEmployer);
-        } catch (error) {
-            res.json({
-                error
-            });
-        }
-    }
 
     async postJob(req, res) {
         try {
-            const employer = await Employer.findById(req.params.employerID);
+
             const input = {
-                company_name: employer.company_name,
-                company_id: req.params.employerID,
+                company_name: req.user.company_name,
+                company_id: req.user.id,
                 job_title: req.body.job_title,
                 job_description: req.body.job_description,
                 job_requirements: req.body.job_requirements,
@@ -53,14 +50,44 @@ class EmployerController {
                 job_category: req.body.job_category,
                 job_keywords: req.body.job_keywords
             };
+            let errors = [];
 
-            const newJob = new Job(input);
-            const savedJob = await newJob.save();
+            if (!input.job_title || !input.job_title || !input.job_category || !input.job_description
+                || !input.job_requirements || !input.job_locations
+                || !input.job_deadline || !input.job_type
+                || !input.job_keywords) {
+                errors.push({
+                    msg: 'Please enter all fields'
+                });
+            }
 
-            console.log("New Job Created!");
-            res.json(savedJob);
+            if (errors.length > 0) {
+                res.render('employerdashboard', {
+                    errors,
+                    employer: req.user,
+                    ...input
+                });
+            } else {
+                const newJob = new Job(input);
+                const savedJob = await newJob.save();
+                let employer = await Employer.findById(req.user.id)
+                let newjobs = employer.posted_jobs.push(savedJob.id)
+                await employer.updateOne(req.user.id, { posted_jobs: newjobs })
+                await employer.save()
+                console.log("New Job Created!");
+                // res.json(savedJob);
+
+                req.flash(
+                    'success_msg',
+                    'Job Has Been Posted'
+                );
+                res.status(204).redirect('/dashboard')
+                // res.redirect('/dashboard');
+            }
+
 
         } catch (error) {
+            console.log(error)
             res.json({
                 error
             });
@@ -106,15 +133,20 @@ class EmployerController {
                     password2
                 });
             } else {
-                const user = await Employer.findOne({
+                const jobseeker = await JobSeeker.findOne({
+                    user_email: company_email
+                })
+
+                const employer = await Employer.findOne({
                     company_email
                 })
 
+                if (jobseeker || employer) {
 
-                if (user) {
                     errors.push({
                         msg: 'Email already exists'
                     });
+
                     res.render('employersregister', {
                         errors,
                         company_name,
@@ -140,7 +172,7 @@ class EmployerController {
                                         'success_msg',
                                         'You are now registered and can log in'
                                     );
-                                    res.redirect('/users/login');
+                                    res.redirect('/login');
                                 })
                                 .catch(err =>
                                     console.log(err)
@@ -154,18 +186,18 @@ class EmployerController {
             console.error(error)
         }
     }
-    
-    login(req , res, next) {
+
+    login(req, res, next) {
         try {
             passport.authenticate('local', {
-              successRedirect: '/employerdashboard',
-              failureRedirect: '/Employers/login',
-              failureFlash: true
+                successRedirect: '/employerdashboard',
+                failureRedirect: '/login',
+                failureFlash: true
             })(req, res, next);
-        
-          } catch (error) {
+
+        } catch (error) {
             console.log(error)
-          }
+        }
     }
 
 }

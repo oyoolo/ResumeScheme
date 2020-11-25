@@ -1,5 +1,7 @@
 import JobSeeker from '../models/JobSeekerModel.js'
+import Employer from '../models/EmployerModel.js'
 import Resume from '../models/ResumeModel.js'
+import bcrypt from 'bcryptjs'
 import path from 'path'
 import fs from 'fs'
 
@@ -23,27 +25,9 @@ class JobSeekerController {
         }
     }
 
-    async addJobSeeker(req, res) {
-        const input = {
-            fullname: req.body.fullname,
-            user_email: req.body.user_email,
-            birth_year: req.body.birth_year,
-            password: req.body.password
-        };
+    async applyToJob (req, res){
 
-        const jobseeker = new JobSeeker(input);
-
-        try {
-            const savedJobSeeker = await jobseeker.save();
-            console.log('Saved an employer')
-            res.json(savedJobSeeker);
-        } catch (error) {
-            res.json({
-                error
-            });
-        }
     }
-
     async viewResume(req, res, next) {
         try {
             const jobseeker = await JobSeeker.findById(req.params.jobSeekerID);
@@ -73,7 +57,18 @@ class JobSeekerController {
                 }
                 const newResume = new Resume(input);
                 const resume = await newResume.save();
-                return resume.id;
+
+                const jobseeker = await JobSeeker.findById(req.user.id)
+                 
+                await jobseeker.updateOne(req.user.id, {resume_id: resume.id})
+                await jobseeker.save()
+                console.log("Resume Uploaded!")
+
+                req.flash(
+                    'success_msg',
+                    'Resume Updated!'
+                );
+                
             } else {
                 console.log("Invalid file! Choose PDF")
             }
@@ -87,6 +82,7 @@ class JobSeekerController {
     }
 
     async register(req, res) {
+       
         try {
             const {
                 fullname,
@@ -124,15 +120,25 @@ class JobSeekerController {
                     password2
                 });
             } else {
-                const user = await JobSeeker.findOne({
+                const jobseeker = await JobSeeker.findOne({
                     user_email
                 })
 
+                const employer = await Employer.findOne({
+                    company_email: user_email
+                })
 
-                if (user) {
+                if (jobseeker || employer) {
+                    if (employer) {
+                        errors.push({
+                            msg: `Email registered to ${employer.company_name}`
+                        });
+                    }
+                    
                     errors.push({
                         msg: 'Email already exists'
                     });
+
                     res.render('jobsregister', {
                         errors,
                         fullname,
@@ -158,7 +164,7 @@ class JobSeekerController {
                                         'success_msg',
                                         'You are now registered and can log in'
                                     );
-                                    res.redirect('/users/login');
+                                    res.redirect('/login');
                                 })
                                 .catch(err =>
                                     console.log(err)
@@ -172,20 +178,20 @@ class JobSeekerController {
             console.error(error)
         }
     }
-    
-    login(req , res, next) {
+
+    login(req, res, next) {
         try {
             passport.authenticate('local', {
-              successRedirect: '/jobdashboard',
-              failureRedirect: '/jobseekers/login',
-              failureFlash: true
+                successRedirect: '/jobdashboard',
+                failureRedirect: '/login',
+                failureFlash: true
             })(req, res, next);
-        
-          } catch (error) {
+
+        } catch (error) {
             console.log(error)
-          }
+        }
     }
-    
+
     //To download a resume from Mongo
     async downloadResume(req, res) {
 

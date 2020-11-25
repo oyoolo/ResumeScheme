@@ -1,0 +1,10 @@
+<% if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
+<a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+    <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"> <%= job.job_title %> </h5>
+        <small><%= job.job_applicants.length %> Applicants</small>
+    </div>
+    <p class="mb-1"><%= job.job_requirements %></p>
+    <small><%= job.job_type %></small>
+</a>
+<% }); %> <% } %>

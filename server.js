@@ -62,8 +62,8 @@ import resumeRoute from './routes/Resume.js'
 import userRoute from './routes/User.js'
 
 //Middleware for routes
-app.use('/employers', employerRoute);
-app.use('/jobseekers', jobseekerRoute);
+app.use('/employer', employerRoute);
+app.use('/jobseeker', jobseekerRoute);
 app.use('/jobs', jobRoute);
 app.use('/resumes', resumeRoute);
 app.use("/", userRoute);

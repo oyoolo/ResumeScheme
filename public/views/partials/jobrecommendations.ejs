@@ -1,0 +1,19 @@
+<% if(typeof jobrecommendations != 'undefined'){ %> <% jobrecommendations.forEach(function(job) { %>
+<div  class="list-group-item list-group-item-action flex-column align-items-start ">
+    <div class="card" style="width: 18rem;">
+        <div class="card-header">
+
+        </div>
+        <div class="card-body">
+            <h5 class="card-title"><%= job.job_title %> </h5>
+            <h6 class="card-subtitle mb-2 text-muted"><%= job.job_type %></h6>
+            <p class="card-text"><%= job.job_requirements %></p>
+            <a href="#" class="card-link">Apply</a>
+            <a href="#" class="card-link">Save</a>
+        </div>
+        <div class="card-footer text-muted text-right">
+
+        </div>
+    </div>
+</div>
+<% }); %> <% } %>

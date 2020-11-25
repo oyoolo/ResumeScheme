@@ -1,30 +1,28 @@
 import express from 'express';
-import EmployerController from '../controllers/EmployerController.js'
-import { ensureAuthenticated } from '../config/auth.js'
+import EmployerController from '../controllers/EmployerController.js';
 import pkg from 'connect-ensure-login'
-const { ensureLoggedOut } = pkg
+const {
+    ensureLoggedOut,
+    ensureLoggedIn
+} = pkg
 const router = express.Router()
 const employerController = new EmployerController();
 
-//ALL EMPLOYERS
+//All employers
 // router.get('/', employerController.getAllEmployers);
 
-//SUBMIT NEW EMPLOYER
-// router.post("/", employerController.addEmployer);
-
-//REGISTER
+//Register
 router.get("/register",
     ensureLoggedOut("/dashboard"),
     (req, res) => res.render('employersregister'));
 router.post("/register", employerController.register);
 
-//DASHBOARD
-// router.get('/', ensureAuthenticated, (req, res) => {
-//     res.render('employerdashboard', {
-//         user: req.user
-//     })
-// });
+//New Job
+router.post("/post_job", ensureLoggedIn(),
+    employerController.postJob);
 
-//SUBMIT NEW JOB
-router.post("/:employerID/post_job", employerController.postJob);
+//All jobs
+
+router.get("/myjobs", ensureLoggedIn(), employerController.getJobs)
+
 export default router;
