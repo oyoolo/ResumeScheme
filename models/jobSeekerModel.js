@@ -15,7 +15,7 @@ const joiSchema = Joi.object().keys({
             .max(2004),
 
         password: Joi.string(),
-        resume: Joi.object(),
+        resume_id: Joi.object(),
         user_email: Joi.string().email().required(),
         phone: Joi.number().integer(),
         date: Joi.date().default(Date.now),

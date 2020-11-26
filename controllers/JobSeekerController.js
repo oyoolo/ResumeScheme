@@ -25,7 +25,7 @@ class JobSeekerController {
         }
     }
 
-    async applyToJob (req, res){
+    async applyToJob(req, res) {
 
     }
     async viewResume(req, res, next) {
@@ -45,33 +45,46 @@ class JobSeekerController {
     //
     async submitResume(req, res, next) {
         try {
-            const __dirname = path.resolve();
-            if (req.file.mimetype === 'application/pdf' && req.file.size <= 2000000) {
-                let input = {
-                    resume_content: req.body.resume_content,
-                    resume_file: {
-                        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-                        metadata: req.file,
+            let { resume_content } = req.body;
+            let input = {resume_content, resume_owner: req.user.user_email};
+            if (req.file) {
+                const __dirname = path.resolve();
+                if (req.file.mimetype === 'application/pdf' && req.file.size <= 2000000) {
+                    input = {
+                        resume_content,
+                        resume_owner: req.user.user_email,
+                        resume_file: {
+                            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+                            metadata: req.file,
 
+                        }
                     }
+
+
+                } else {
+                    req.flash(
+                        'error_msg',
+                        'Choose PDF file'
+                    );
+                    console.log("Invalid file! Choose PDF")
                 }
-                const newResume = new Resume(input);
-                const resume = await newResume.save();
-
-                const jobseeker = await JobSeeker.findById(req.user.id)
-                 
-                await jobseeker.updateOne(req.user.id, {resume_id: resume.id})
-                await jobseeker.save()
-                console.log("Resume Uploaded!")
-
-                req.flash(
-                    'success_msg',
-                    'Resume Updated!'
-                );
-                
-            } else {
-                console.log("Invalid file! Choose PDF")
             }
+            const newResume = new Resume(input);
+            const resume = await newResume.save();
+
+            const jobseeker = await JobSeeker.findById(req.user.id)
+
+            await jobseeker.updateOne(req.user.id, { resume_id: resume.id })
+            await jobseeker.save()
+            
+            console.log("Resume Uploaded!")
+            req.flash(
+                'success_msg',
+                'Resume Updated!'
+            );
+
+            res.status(204).send()
+
 
         } catch (error) {
             console.log(error)
@@ -82,7 +95,7 @@ class JobSeekerController {
     }
 
     async register(req, res) {
-       
+
         try {
             const {
                 fullname,
@@ -134,7 +147,7 @@ class JobSeekerController {
                             msg: `Email registered to ${employer.company_name}`
                         });
                     }
-                    
+
                     errors.push({
                         msg: 'Email already exists'
                     });
