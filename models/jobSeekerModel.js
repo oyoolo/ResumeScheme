@@ -19,6 +19,7 @@ const joiSchema = Joi.object().keys({
         user_email: Joi.string().email().required(),
         phone: Joi.number().integer(),
         date: Joi.date().default(Date.now),
+        job_applications: Joi.array().items(Joi.string())
     }
 
 )

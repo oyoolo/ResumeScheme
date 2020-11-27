@@ -1,4 +1,5 @@
 import JobSeeker from '../models/JobSeekerModel.js'
+import Job from '../models/JobModel.js'
 import Employer from '../models/EmployerModel.js'
 import Resume from '../models/ResumeModel.js'
 import bcrypt from 'bcryptjs'
@@ -26,16 +27,52 @@ class JobSeekerController {
     }
 
     async applyToJob(req, res) {
+        try {
 
+            const job = await Job.findById(req.params.jobID)
+            let { job_applicants } = job;
+
+            if (!job_applicants.includes(req.user.user_email) || job_applicants.length === 0) {
+                
+                job_applicants.push(req.user.user_email)
+                console.log(job_applicants)
+                await job.updateOne({ job_applicants }, { runValidators: true })
+                
+
+                const jobseeker = await JobSeeker.findById(req.user.id)
+                let { job_applications } = jobseeker;
+                // console.log(job_applications)
+                job_applications.push(job.id)
+                await jobseeker.updateOne({ job_applications })
+                req.flash(
+                    'success_msg',
+                    'Applied!'
+                );
+
+                console.log("Applied!");
+                res.redirect("/jobseeker/viewjobs")
+            }
+            else {
+                req.flash(
+                    'error_msg',
+                    'Already Applied!'
+                );
+
+                console.log("Already applied")
+                res.redirect("/jobseeker/viewjobs")
+            }
+        } catch (error) {
+            console.error(error)
+        }
     }
+
     async viewResume(req, res, next) {
         try {
-            const jobseeker = await JobSeeker.findById(req.params.jobSeekerID);
-
+            const jobseeker = req.user;
             res.render("pdf", {
                 name: jobseeker.fullname
             })
-            console.log(this.id)
+
         } catch (error) {
             console.error(error)
         }
@@ -46,7 +83,7 @@ class JobSeekerController {
     async submitResume(req, res, next) {
         try {
             let { resume_content } = req.body;
-            let input = {resume_content, resume_owner: req.user.user_email};
+            let input = { resume_content, resume_owner: req.user.user_email };
             if (req.file) {
                 const __dirname = path.resolve();
                 if (req.file.mimetype === 'application/pdf' && req.file.size <= 2000000) {
@@ -60,7 +97,6 @@ class JobSeekerController {
                         }
                     }
 
-
                 } else {
                     req.flash(
                         'error_msg',
@@ -69,28 +105,41 @@ class JobSeekerController {
                     console.log("Invalid file! Choose PDF")
                 }
             }
-            const newResume = new Resume(input);
-            const resume = await newResume.save();
 
-            const jobseeker = await JobSeeker.findById(req.user.id)
+            let resume = await Resume.findOneAndUpdate(
+                { resume_owner: req.user.user_email },
+                input,
+                {
+                    useFindAndModify: false,
+                    new: true,
+                    upsert: true
+                })
+            await resume.save()
 
-            await jobseeker.updateOne(req.user.id, { resume_id: resume.id })
+            let jobseeker = await JobSeeker.findOneAndUpdate(
+                req.user.id,
+                { resume_id: resume.id },
+                {
+                    useFindAndModify: false,
+                    new: true,
+                    upsert: true
+                })
+
             await jobseeker.save()
-            
+
             console.log("Resume Uploaded!")
             req.flash(
                 'success_msg',
                 'Resume Updated!'
             );
 
-            res.status(204).send()
+            res.status(204).redirect("/dashboard")
 
 
         } catch (error) {
             console.log(error)
 
         }
-
 
     }
 

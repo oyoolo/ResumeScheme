@@ -1,11 +1,12 @@
-import Employer from '../models/EmployerModel.js';
-import JobSeeker from "../models/JobSeekerModel.js";
-import Job from '../models/JobModel.js'
-import Resume from '../models/ResumeModel.js'
 
-class SystemController {
+import Job from "../models/JobModel.js"
+
+
+export default class SystemController {
+    
     async suggestJobs(){
-
+        const jobs = await Job.find()
+        return jobs
     }
 
     async sendAplicants(){

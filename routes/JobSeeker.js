@@ -1,8 +1,13 @@
 import express from 'express';
-import JobSeekerController from '../controllers/JobSeekerController.js'
-import multer from 'multer'
-import {forwardAuthenticated, ensureAuthenticated} from '../config/auth.js'
+import JobSeekerController from '../controllers/JobSeekerController.js';
+import multer from 'multer';
+import SystemController from "../controllers/SystemController.js";
+import {
+    forwardAuthenticated,
+    ensureAuthenticated
+} from '../config/auth.js'
 
+const sysControl = new SystemController()
 const router = express.Router()
 const jobSeekerController = new JobSeekerController();
 
@@ -17,25 +22,54 @@ let storage = multer.diskStorage({
 });
 
 //BUFFERED FILE TO UPLOAD
-let upload = multer({storage});
-//ALL JOBSEEKERS
+let upload = multer({
+    storage
+});
+
+//All jobseeker
 // router.get('/', jobSeekerController.getAllJobSeekers);
 
-//SUBMIT NEW JOBSEEKER
+//Add job seeker (brute force
 // router.post("/", jobSeekerController.addJobSeeker);
 
-//JOBSEEKER REGISTRATION
-router.get("/register", forwardAuthenticated, (req, res) => res.render('jobsregister'));
+//Jobseeker registration
+router.get("/register", forwardAuthenticated,
+    (req, res) => res.render('jobsregister'));
 router.post("/register", jobSeekerController.register);
 
-//JOBSEEKER LOGIN
+//Jobseeker login
 // router.get("/login", jobSeekerController.login);
 // router.post('/login', forwardAuthenticated, (req, res) => res.render('login'));
 
-//SUBMIT RESUME
+//Submit Resume
+router.get("/submit_resume",
+    ensureAuthenticated,
+    jobSeekerController.viewResume);
 
-router.get("/submit_resume", jobSeekerController.viewResume);
-router.post("/submit_resume", ensureAuthenticated, upload.single("resumefile"), jobSeekerController.submitResume);
-//
+router.post("/submit_resume",
+    ensureAuthenticated,
+    upload.single("resumefile"),
+    jobSeekerController.submitResume);
+
+//Download Resume
 router.get("/download_resume", jobSeekerController.downloadResume);
+
+//View Jobs
+router.get("/viewjobs", ensureAuthenticated,
+    async (req, res) => {
+        let jobs = await sysControl.suggestJobs()
+
+        res.render("jobseekerdashboard",
+            {
+                jobseeker: req.user,
+                jobs
+            })
+
+    })
+
+//Apply to Job
+// router.get('/apply/:jobID', ensureAuthenticated, (req, res) => res.redirect("/jobseeker/viewjobs"))
+router.get("/apply/:jobID", ensureAuthenticated, jobSeekerController.applyToJob)
+
+
 export default router;

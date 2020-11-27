@@ -1,8 +1,11 @@
 import Job from '../models/JobModel.js'
+import UserController from './UserController.js';
 
-class JobController {
+class JobController extends UserController {
+    
     constructor() {
-        this.getAllJobs.bind(this);
+        super();
+       
     }
 
     async getById (id){

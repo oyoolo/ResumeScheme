@@ -2,10 +2,11 @@ import Employer from '../models/EmployerModel.js';
 import JobSeeker from "../models/JobSeekerModel.js";
 import Job from '../models/JobModel.js'
 import bcrypt from 'bcryptjs';
+import UserController from './UserController.js'
 
-class EmployerController {
+class EmployerController extends UserController {
     constructor() {
-
+        super();
     }
 
     async getJobs(req, res) {
@@ -37,7 +38,8 @@ class EmployerController {
 
     async postJob(req, res) {
         try {
-
+            let keywords = req.body.job_keywords
+            const job_keywords = keywords.split(",")
             const input = {
                 company_name: req.user.company_name,
                 company_id: req.user.id,
@@ -48,7 +50,7 @@ class EmployerController {
                 job_deadline: req.body.job_deadline,
                 job_type: req.body.job_type,
                 job_category: req.body.job_category,
-                job_keywords: req.body.job_keywords
+                job_keywords: job_keywords
             };
             let errors = [];
 
@@ -188,16 +190,25 @@ class EmployerController {
     }
 
     login(req, res, next) {
+        
         try {
-            passport.authenticate('local', {
-                successRedirect: '/employerdashboard',
-                failureRedirect: '/login',
-                failureFlash: true
-            })(req, res, next);
+            if (req.user.company_name){
+                
+                passport.authenticate('local', {
+                    successRedirect: '/employerdashboard',
+                    failureRedirect: '/login',
+                    failureFlash: true
+                })(req, res, next);
 
+                super.login(req, res, next)
+            }
+
+            
         } catch (error) {
             console.log(error)
         }
+
+        
     }
 
 }

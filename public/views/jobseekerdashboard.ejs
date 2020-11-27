@@ -21,16 +21,15 @@
             aria-selected="false">Log Out</a>
     </li>
 </ul>
-
+<%- include ('./partials/messages'); -%>
 <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
     </div>
     <div class="tab-pane fade show active" id="pills-updateresume" role="tabpanel"
         aria-labelledby="pills-updateresume-tab">
-        <%- include ('./partials/messages'); -%>
+
         <form action="/jobseeker/submit_resume" method="POST" method="POST" enctype="multipart/form-data">
-
-
+            
             <div class="form-group">
                 <label for="resume_content">Resume Content</label>
                 <textarea class="form-control" id="resume_content" name="resume_content" rows="10"
@@ -53,10 +52,16 @@
         </form>
     </div>
     <div class="tab-pane fade" id="pills-viewjobs" role="tabpanel" aria-labelledby="pills-viewjobs-tab">
-        <div class="list-group">
+        <div class="list-group" 
+        style="
+        max-height: 800px; 
+        margin-bottom: 10px;
+        overflow:scroll;
+        -webkit-overflow-scrolling: touch;
+        ">
 
             <%- include ('./partials/jobrecommendations'); -%>
-            <div class="list-group-item-action flex-column align-items-start ">
+            <!-- <div class="list-group-item-action flex-column align-items-start ">
                 <div class="card">
                     <div class="card-header">
 
@@ -75,7 +80,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> -->
 
 
 
