@@ -1,4 +1,5 @@
 import passport from 'passport'
+
 export default class UserController {
     constructor() {
 

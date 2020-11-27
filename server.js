@@ -11,8 +11,8 @@ dotenv.config()
 const app = express();
 
 //Passport config
-import passConfig from './config/passport.js'
-passConfig(passport)
+// import passConfig from './config/passport.js'
+// passConfig(passport)
 
 //Middlewares
 app.use(express.urlencoded({

@@ -6,30 +6,17 @@ const LocalStrategy = Local.Strategy
 import Employer from '../models/EmployerModel.js';
 import JobSeeker from "../models/JobSeekerModel.js";
 
-
-
-export default function (passport) {
-  let isEmployer ;
-  let user;
+export function jobseekerConfig (passport) {
   passport.use(
-
     new LocalStrategy({ usernameField: 'email' },
-
       async (email, password, done) => {
 
-        // Match user
-        const employer = await Employer.findOne({
-          company_email: email
-        });
         const jobseeker = await JobSeeker.findOne({
           user_email: email
         });
 
-        user = employer || jobseeker;
-        isEmployer = false;
-        if (user === employer) isEmployer = true
-
-        if (!user) {
+        if (!jobseeker) {
+          
           //EMAIL NOT REGISTERED
           return done(null, false, {
             message: 'Invalid e-mail or password. Please try again.'
@@ -37,10 +24,10 @@ export default function (passport) {
         }
 
         // Match password
-        bcrypt.compare(password, user.password, (err, isMatch) => {
+        bcrypt.compare(password, jobseeker.password, (err, isMatch) => {
           if (err) throw err;
           if (isMatch) {
-            return done(null, user);
+            return done(null, jobseeker);
           } else {
             //INVALID PASSWORD
             return done(null, false, {
@@ -53,24 +40,12 @@ export default function (passport) {
   );
 
 
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
+  passport.serializeUser((jobseeker, done) => {
+    done(null, jobseeker.id);
   });
-
 
   passport.deserializeUser(async (id, done) => {
 
-    if (isEmployer) {
-      
-      await Employer.findById(id, (err, user) => {
-        console.log("Employer Session Deserialized!")
-        done(err, user);
-        if (err)
-          throw err;
-      });
-
-    } else {
-      
       await JobSeeker.findById(id, (err, user) => {
         console.log("Jobseeker Session Deserialized!")
         done(err, user);
@@ -78,9 +53,55 @@ export default function (passport) {
           throw err;
       });
 
-    }
+ 
 
   });
 
 
+};
+
+export function employerConfig (passport) {
+  passport.use(
+    new LocalStrategy({ usernameField: 'email' },
+      async (email, password, done) => {
+        // Match user
+        const employer = await Employer.findOne({
+          company_email: email
+        });
+        
+        if (!employer) {
+          //EMAIL NOT REGISTERED
+          return done(null, false, {
+            message: 'Invalid e-mail or password. Please try again.'
+          });
+        }
+
+        // Match password
+        bcrypt.compare(password, employer.password, (err, isMatch) => {
+          if (err) throw err;
+          if (isMatch) {
+            return done(null, employer);
+          } else {
+            //INVALID PASSWORD
+            return done(null, false, {
+              message: 'Invalid e-mail or password. Please try again.'
+            });
+          }
+        });
+
+      })
+  );
+
+  passport.serializeUser((employer, done) => {
+    done(null, employer.id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+      await Employer.findById(id, (err, user) => {
+        console.log("Employer Session Deserialized!")
+        done(err, user);
+        if (err)
+          throw err;
+      });
+  });
 };

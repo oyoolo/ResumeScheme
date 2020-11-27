@@ -1,5 +1,9 @@
 import Job from '../models/JobModel.js'
 import UserController from './UserController.js';
+import passport from 'passport'
+import {jobseekerConfig} from '../config/passport.js'
+jobseekerConfig (passport)
+
 
 class JobController extends UserController {
     
