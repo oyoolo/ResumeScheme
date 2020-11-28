@@ -31,7 +31,9 @@ let upload = multer({
 
 //Add job seeker (brute force
 // router.post("/", jobSeekerController.addJobSeeker);
-
+//Login
+router.get('/login', forwardAuthenticated, (req, res) => res.render('jobseekerlogin'));
+router.post('/login', jobSeekerController.login);
 //Jobseeker registration
 router.get("/register", forwardAuthenticated,
     (req, res) => res.render('jobsregister'));

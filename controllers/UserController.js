@@ -1,5 +1,3 @@
-import passport from 'passport'
-
 export default class UserController {
     constructor() {
 
@@ -19,17 +17,5 @@ export default class UserController {
           
     }
 
-    login(req, res, next) {
-        try {
-            passport.authenticate('local', {
-                successRedirect: '/dashboard',
-                failureRedirect: '/login',
-                failureFlash: true
-            })(req, res, next);
-            
-        } catch (error) {
-            console.log(error)
-            res.status(400).json(error)
-        }
-    }
+  
 }

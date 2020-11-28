@@ -4,8 +4,6 @@ import Job from '../models/JobModel.js'
 import bcrypt from 'bcryptjs';
 import UserController from './UserController.js'
 import passport from 'passport'
-import {employerConfig} from '../config/passport.js'
-employerConfig (passport) 
 
 class EmployerController extends UserController {
     constructor() {
@@ -191,7 +189,20 @@ class EmployerController extends UserController {
             console.error(error)
         }
     }
-
+    
+    login(req, res, next) {
+        try {
+            passport.authenticate('local-employer', {
+                successRedirect: '/dashboard',
+                failureRedirect: '/employer/login',
+                failureFlash: true
+            })(req, res, next);
+            
+        } catch (error) {
+            console.log(error)
+            res.status(400).json(error)
+        }
+    }
     
 
 }

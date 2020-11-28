@@ -12,7 +12,6 @@ router.get('/dashboard', ensureAuthenticated, new UserController().dashboard);
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
-router.post('/login', new UserController().login);
 
 // Logout
 router.get('/logout', (req, res) => {

@@ -5,11 +5,12 @@ import Resume from '../models/ResumeModel.js'
 import bcrypt from 'bcryptjs'
 import path from 'path'
 import fs from 'fs'
+import UserController from './UserController.js'
+import passport from 'passport'
 
-class JobSeekerController {
+class JobSeekerController extends UserController {
     constructor() {
-        this.getAllJobSeekers.bind(this);
-        this.id = "o";
+        super();
     }
 
     //
@@ -65,7 +66,20 @@ class JobSeekerController {
             console.error(error)
         }
     }
-
+    
+    login(req, res, next) {
+        try {
+            passport.authenticate('local-jobseeker', {
+                successRedirect: '/dashboard',
+                failureRedirect: '/jobseeker/login',
+                failureFlash: true
+            })(req, res, next);
+            
+        } catch (error) {
+            console.log(error)
+            res.status(400).json(error)
+        }
+    }
     async viewResume(req, res, next) {
         try {
             const jobseeker = req.user;
@@ -241,18 +255,7 @@ class JobSeekerController {
         }
     }
 
-    login(req, res, next) {
-        try {
-            passport.authenticate('local', {
-                successRedirect: '/jobdashboard',
-                failureRedirect: '/login',
-                failureFlash: true
-            })(req, res, next);
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    
 
     //To download a resume from Mongo
     async downloadResume(req, res) {
