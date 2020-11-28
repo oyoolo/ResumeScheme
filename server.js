@@ -6,7 +6,7 @@ import passport from 'passport';
 import flash from 'connect-flash';
 import session from 'express-session';
 import path from 'path'
-dotenv.config()
+dotenv.config();
 
 const app = express();
 
@@ -46,12 +46,12 @@ app.use(flash())
 
 // Global variables
 app.use((req, res, next) => {
-        res.locals.success_msg = req.flash("success_msg");
-        res.locals.error_msg = req.flash("error_msg");
-        res.locals.error = req.flash("error");
-       
-        next();
-    });
+    res.locals.success_msg = req.flash("success_msg");
+    res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error");
+
+    next();
+});
 
 
 //Import routes
@@ -72,9 +72,9 @@ app.use("/", userRoute);
 //Connect to DB
 mongoose.connect(
     process.env.DATABASE_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    },
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+},
     (err) => {
         if (err) console.log(err);
         else console.log("connected to DB!");
