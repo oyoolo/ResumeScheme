@@ -30,28 +30,30 @@ class JobSeekerController extends UserController {
     async applyToJob(req, res) {
         try {
 
-            const job = await Job.findById(req.params.jobID)
+            const job = await Job.findById(req.params.jobID);
             let { job_applicants } = job;
 
-            if (!job_applicants.includes(req.user.user_email) || job_applicants.length === 0) {
-                
+            if (job_applicants && (!job_applicants.includes(req.user.user_email) || job_applicants.length === 0)) {
+
                 job_applicants.push(req.user.user_email)
                 console.log(job_applicants)
                 await job.updateOne({ job_applicants }, { runValidators: true })
-                
+
 
                 const jobseeker = await JobSeeker.findById(req.user.id)
                 let { job_applications } = jobseeker;
-                // console.log(job_applications)
-                job_applications.push(job.id)
-                await jobseeker.updateOne({ job_applications })
-                req.flash(
-                    'success_msg',
-                    'Applied!'
-                );
+                if (job_applications) {
+                    job_applications.push(job.id)
+                    await jobseeker.updateOne({ job_applications })
+                    req.flash(
+                        'success_msg',
+                        'Applied!'
+                    );
 
-                console.log("Applied!");
-                res.redirect("/jobseeker/viewjobs")
+                    console.log("Applied!");
+                    res.redirect("/jobseeker/viewjobs")
+                }
+
             }
             else {
                 req.flash(
@@ -63,10 +65,11 @@ class JobSeekerController extends UserController {
                 res.redirect("/jobseeker/viewjobs")
             }
         } catch (error) {
+            res.status(400).json({ error })
             console.error(error)
         }
     }
-    
+
     login(req, res, next) {
         try {
             passport.authenticate('local-jobseeker', {
@@ -74,7 +77,7 @@ class JobSeekerController extends UserController {
                 failureRedirect: '/jobseeker/login',
                 failureFlash: true
             })(req, res, next);
-            
+
         } catch (error) {
             console.log(error)
             res.status(400).json(error)
@@ -255,7 +258,7 @@ class JobSeekerController extends UserController {
         }
     }
 
-    
+
 
     //To download a resume from Mongo
     async downloadResume(req, res) {
