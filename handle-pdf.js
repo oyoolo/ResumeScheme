@@ -17,6 +17,6 @@ pdfExtract.extract('sample.pdf', options, (err, data) => {
 
     });
     // let reg = /J/g
-    console.log(text.includes("Android Studio"));
+    // console.log(text.includes("Android Studio"));
     console.log(text);
 });

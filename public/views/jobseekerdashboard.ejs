@@ -1,3 +1,4 @@
+
 <h1 class="mt-4">ResumeScheme </h1>
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item">
@@ -29,7 +30,7 @@
         aria-labelledby="pills-updateresume-tab">
 
         <form action="/jobseeker/submit_resume" method="POST" method="POST" enctype="multipart/form-data">
-            
+
             <div class="form-group">
                 <label for="resume_content">Resume Content</label>
                 <textarea class="form-control" id="resume_content" name="resume_content" rows="10"
@@ -39,9 +40,10 @@
 
             <div class="input-group">
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile04"
+                    <label class="custom-file-label" for="resumefile"></label>
+                    <input type="file" class="custom-file-input" id="resumefile" name="resumefile" value=""
                         aria-describedby="inputGroupFileAddon04">
-                    <label class="custom-file-label" for="inputGroupFile04">Choose Resume File</label>
+                    
                 </div>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Upload</button>
@@ -52,8 +54,7 @@
         </form>
     </div>
     <div class="tab-pane fade" id="pills-viewjobs" role="tabpanel" aria-labelledby="pills-viewjobs-tab">
-        <div class="list-group" 
-        style="
+        <div class="list-group" style="
         max-height: 800px; 
         margin-bottom: 10px;
         overflow:scroll;
