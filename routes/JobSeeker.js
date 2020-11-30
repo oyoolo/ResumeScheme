@@ -60,7 +60,6 @@ router.get("/download_resume", jobSeekerController.downloadResume);
 router.get("/viewjobs", ensureAuthenticated,
     async (req, res) => {
         let jobs = await sysControl.suggestJobs()
-
         res.render("jobseekerdashboard",
             {
                 jobseeker: req.user,
@@ -72,6 +71,9 @@ router.get("/viewjobs", ensureAuthenticated,
 //Apply to Job
 // router.get('/apply/:jobID', ensureAuthenticated, (req, res) => res.redirect("/jobseeker/viewjobs"))
 router.get("/apply/:jobID", ensureAuthenticated, jobSeekerController.applyToJob)
+
+//View My Applications
+router.get("/myapplications", ensureAuthenticated, jobSeekerController.getApplications )
 
 
 export default router;

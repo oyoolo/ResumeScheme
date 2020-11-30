@@ -1,21 +1,20 @@
-<% if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
+<% let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
+    
 <div class="list-group-item list-group-item-action flex-column align-items-start ">
     <div class="card h-200" href="#" style="width: auto; ">
         <!-- <div class="card-header">
-
         </div> -->
-        <div class="card-body" data-toggle="modal" data-target="#exampleModal">
+        <div class="card-body" data-toggle="modal" data-target="#exampleModal<%= index%>">
             <h5 class="card-title"><%= job.job_type %> <%= job.job_title %> <small> ( Match % )</small></h5>
             <h6 class="card-subtitle mb-2 text-muted"><%= job.company_name %></h6>
             <a href="/jobseeker/apply/<%= job.id %> " class="card-link"> Quick Apply</a>
             <a href="#" class="card-link"> Save</a>
         </div>
         <!-- <div class="card-footer text-muted text-right">
-
         </div> -->
     </div>
 </div>
-<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+<div class="modal fade" id="exampleModal<%= index%>" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -33,7 +32,6 @@
                 <p class="card-text"><%= job.job_description %></p>
                 <h6>Requirements</h6>
                 <p class="card-text"><%= job.job_requirements %></p>
-
             </div>
             <div class="modal-footer">
                 <a href="/jobseeker/apply/<%= job.id %> " class="card-link btn btn-primary">Apply</a>
@@ -42,4 +40,5 @@
         </div>
     </div>
 </div>
+<% index++ ;%>
 <% }); %> <% } %>

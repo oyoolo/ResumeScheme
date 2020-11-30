@@ -25,7 +25,10 @@ router.post("/post_job", ensureLoggedIn(),
     new EmployerController().postJob);
 
 //All jobs
-
 router.get("/myjobs", ensureLoggedIn(), new EmployerController().getJobs)
+
+//Get Applicants
+router.get("/:jobID/applicants", ensureLoggedIn(), new EmployerController().getApplicants)
+
 
 export default router;

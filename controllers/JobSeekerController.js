@@ -29,6 +29,18 @@ class JobSeekerController extends UserController {
     }
   }
 
+  async getApplications(req, res){
+    try {
+      
+      let ids = req.user.job_applications
+      
+      let jobs = await Job.find().where('_id').in(ids).exec()
+      res.json({jobs})
+      
+    } catch (error) {
+      res.json(error)
+    }
+  }
   async applyToJob(req, res) {
     try {
       const job = await Job.findById(req.params.jobID);

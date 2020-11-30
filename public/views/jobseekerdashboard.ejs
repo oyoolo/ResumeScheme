@@ -15,8 +15,13 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" id="pills-viewjobs-tab" data-toggle="pill" href="#pills-viewjobs" role="tab"
-            aria-controls="pills-viewjobs" aria-selected="false">View Jobs</a>
+            aria-controls="pills-viewjobs" aria-selected="false"> Suggested Jobs</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-applications-tab" data-toggle="pill" href="#pills-applications" role="tab"
+            aria-controls="pills-applications" aria-selected="false"> Job Applications</a>
+    </li>
+
     <li class="nav-item">
         <a class=" btn btn-block nav-link" id="pills-logout-tab" href="/logout" role="tab" aria-controls="pills-logout"
             aria-selected="false">Log Out</a>
@@ -61,31 +66,19 @@
         -webkit-overflow-scrolling: touch;
         ">
 
-            <%- include ('./partials/jobrecommendations'); -%>
-            <!-- <div class="list-group-item-action flex-column align-items-start ">
-                <div class="card">
-                    <div class="card-header">
+        <%- include ('./partials/jobrecommendations'); -%>
 
-                    </div>
-                    <div class="card-body">
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-applications" role="tabpanel" aria-labelledby="pills-applications-tab">
+        <div class="list-group" style="
+        max-height: 800px; 
+        margin-bottom: 10px;
+        overflow:scroll;
+        -webkit-overflow-scrolling: touch;
+        ">
 
-                        <h5 class="card-title">Job Title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Job Type</h6>
-                        <p class="card-text">Requirements</p>
-                        <a href="#" class="card-link">Apply</a>
-                        <a href="#" class="card-link">Save</a>
-
-                    </div>
-                    <div class="card-footer text-muted text-right">
-
-                    </div>
-
-                </div>
-            </div> -->
-
-
-
-
+            <%- include ('./partials/applications'); -%>
 
         </div>
     </div>

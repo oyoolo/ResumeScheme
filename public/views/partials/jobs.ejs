@@ -1,10 +1,77 @@
-<% if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
-<a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
+<%let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
+<div href="#" class="list-group-item list-group-item-action flex-column align-items-start " data-toggle="modal"
+    data-target="#exampleModal<%= index%>">
     <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"> <%= job.job_title %> </h5>
         <small><%= job.job_applicants.length %> Applicants</small>
     </div>
     <p class="mb-1"><%= job.job_requirements %></p>
     <small><%= job.job_type %></small>
-</a>
+</div>
+<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%= job.job_title  %> at <%= job.company_name %> </h5>
+                <small> ( Match % )</small>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 class="card-subtitle mb-2 text-muted"><%= job.job_type %></h6>
+                <h6><%= job.job_locations %> </h6>
+                <h6>Description</h6>
+                <p class="card-text"><%= job.job_description %></p>
+                <h6>Requirements</h6>
+                <p class="card-text"><%= job.job_requirements %></p>
+
+            </div>
+            <div class="modal-footer">
+                <a href="/jobseeker/apply/<%= job.id %> " class="card-link btn btn-primary">Apply</a>
+                <a href="#" class="card-link btn btn-secondary">Save</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal<%= index%>" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%= job.job_title  %> </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 class="card-subtitle mb-2 text-muted">Applicants</h6>
+
+                <ul class="list-group">
+                    <% job.job_applicants.forEach(email => { %>
+                    <li class="list-group-item d-flex  align-items-center">
+                        <%= email %>
+                        <span class="badge badge-primary badge-pill"> Match %</span>
+
+                        <div class="btn-group justify-content-right" role="group" aria-label="Basic example" 
+                        style=" position: absolute; right: 10px;
+                          top: 5px;">
+                            <a type="button" class="btn btn-outline-success"
+                                href="/resumes/<%= email %>/download">Resume</a>
+                            <button type="button" class="btn btn-outline-success">Favorite</button>
+                        </div>
+                    </li>
+                    <%});%>
+                </ul>
+
+            </div>
+            <div class="modal-footer">
+                <!-- <a href="#" class="card-link btn btn-primary">Edit</a>
+                <a href="#" class="card-link btn btn-secondary">Save</a> -->
+            </div>
+        </div>
+    </div>
+</div>
+<% index++; %>
 <% }); %> <% } %>

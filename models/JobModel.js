@@ -5,7 +5,7 @@ const Joigoose = joigoose(mongoose);
 
 const joiSchema = Joi.object().keys({
     company_name: Joi.string().required(),
-    company_id: Joi.string().required(),
+    company_email: Joi.string().email().required(),
     job_title: Joi.string().required(),
     job_description: Joi.string().required(),
     job_requirements: Joi.string().required(),

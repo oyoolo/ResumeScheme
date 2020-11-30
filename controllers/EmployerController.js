@@ -3,6 +3,7 @@ import JobSeeker from "../models/JobSeekerModel.js";
 import Job from "../models/JobModel.js";
 import bcrypt from "bcryptjs";
 import UserController from "./UserController.js";
+import ResumeController from "./ResumeController.js";
 import passport from "passport";
 
 class EmployerController extends UserController {
@@ -12,10 +13,11 @@ class EmployerController extends UserController {
 
   async getJobs(req, res) {
     try {
-      let jobs = await Job.find({ company_id: req.user.id });
-
-      res.render("employerdashboard", { employer: req.user, jobs });
-      // res.json({ jobs })
+      if (req.user.company_email) {
+        let jobs = await Job.find({ company_email: req.user.company_email });
+        res.render("employerdashboard", { employer: req.user, jobs });
+        // res.json({ jobs })
+      } else res.status(403).send("Forbidden");
     } catch (error) {
       res.json(error);
     }
@@ -31,6 +33,18 @@ class EmployerController extends UserController {
       });
     }
   }
+  async getApplicants(req, res) {
+    try {
+      if (req.user.company_email) {
+        let { job_applicants } = await Job.findById(req.params.jobID);
+
+        res.json(job_applicants);
+      }
+      res.status(403).send("Forbidden");
+    } catch (error) {
+      res.json(error);
+    }
+  }
 
   async postJob(req, res) {
     try {
@@ -38,7 +52,7 @@ class EmployerController extends UserController {
       const job_keywords = keywords.split(",");
       const input = {
         company_name: req.user.company_name,
-        company_id: req.user.id,
+        company_email: req.user.company_email,
         job_title: req.body.job_title,
         job_description: req.body.job_description,
         job_requirements: req.body.job_requirements,
