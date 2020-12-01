@@ -5,15 +5,14 @@ import Resume from "../models/ResumeModel.js";
 import bcrypt from "bcryptjs";
 import path from "path";
 import fs from "fs";
-import UserController from "./UserController.js";
 import passport from "passport";
 import pkg from "pdf.js-extract";
 const { PDFExtract } = pkg;
 const pdfExtract = new PDFExtract();
 
-class JobSeekerController extends UserController {
+class JobSeekerController {
   constructor() {
-    super();
+
   }
 
   //

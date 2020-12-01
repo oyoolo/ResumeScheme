@@ -15,7 +15,9 @@ class EmployerController extends UserController {
     try {
       if (req.user.company_email) {
         let jobs = await Job.find({ company_email: req.user.company_email });
-        res.render("employerdashboard", { employer: req.user, jobs });
+        // res.render("employerdashboard", { employer: req.user, jobs });
+        // console.log(jobs)
+        return jobs;
         // res.json({ jobs })
       } else res.status(403).send("Forbidden");
     } catch (error) {
