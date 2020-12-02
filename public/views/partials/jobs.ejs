@@ -1,12 +1,20 @@
 <%let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
-<div href="#" class="list-group-item list-group-item-action flex-column align-items-start " data-toggle="modal"
-    data-target="#exampleModal<%= index%>">
+<div class="list-group-item list-group-item-action flex-column align-items-start ">
     <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1"> <%= job.job_title %> </h5>
-        <small><%= job.job_applicants.length %> Applicants</small>
+        <a href="#">
+            <small data-toggle="modal" data-target="#exampleModal<%= index%>">
+                <%= job.job_applicants.length %>
+                Applicants
+            </small>
+        </a>
     </div>
-    <p class="mb-1"><%= job.job_requirements %></p>
     <small><%= job.job_type %></small>
+    <p class="mb-1"><%= job.job_requirements %></p>
+    <div class="row">
+        <a class="btn " href="#">Edit</a>
+        <a class="btn " href="#">Delete</a>
+    </div>
 </div>
 <div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -47,15 +55,13 @@
             </div>
             <div class="modal-body">
                 <h6 class="card-subtitle mb-2 text-muted">Applicants</h6>
-
                 <ul class="list-group">
                     <% job.job_applicants.forEach(email => { %>
                     <li class="list-group-item d-flex  align-items-center">
                         <%= email %>
                         <span class="badge badge-primary badge-pill"> Match %</span>
 
-                        <div class="btn-group justify-content-right" role="group" aria-label="Basic example" 
-                        style=" position: absolute; right: 10px;
+                        <div class="btn-group justify-content-right" role="group" aria-label="Basic example" style=" position: absolute; right: 10px;
                           top: 5px;">
                             <a type="button" class="btn btn-outline-success"
                                 href="/resumes/<%= email %>/download">Resume</a>

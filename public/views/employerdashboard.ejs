@@ -1,8 +1,10 @@
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/js43tskjb05nnemckesotop4v2jlssyebski80gpez6g5kw4/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
 <script>
-  tinymce.init({
-    selector: 'textarea'
-  });
+    tinymce.init({
+        selector: 'textarea.editable',
+
+    });
 </script>
 <h1 class="mt-4">ResumeScheme </h1>
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -28,14 +30,13 @@
     </li>
 </ul>
 <%- include ('./partials/messages'); -%>
-<div class="tab-content" id="pills-tabContent" >
+<div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
     </div>
-    <div class="tab-pane fade show active" id="pills-addjob" role="tabpanel" aria-labelledby="pills-addjob-tab" 
-    style="max-height: 800px; 
+    <div class="tab-pane fade show active" id="pills-addjob" role="tabpanel" aria-labelledby="pills-addjob-tab" style="max-height: 800px; 
         margin-bottom: 10px;
         overflow:scroll;
-        -webkit-overflow-scrolling: touch;" >
+        -webkit-overflow-scrolling: touch;">
 
         <form action="/employer/post_job" method="POST">
 
@@ -66,19 +67,19 @@
 
             <div class="form-group">
                 <label for="job_description">Job Description</label>
-                <textarea class="form-control" id="job_description" name="job_description" rows="10"
+                <textarea class="form-control editable" id="job_description" name="job_description" rows="10"
                     placeholder="Job Description"><%= typeof job_description!= 'undefined' ? job_description : '' %></textarea>
             </div>
 
             <div class="form-group">
                 <label for="job_requirements">Job Requirements</label>
-                <textarea class="form-control" id="job_requirements" name="job_requirements" rows="10"
+                <textarea class="form-control editable" id="job_requirements" name="job_requirements" rows="10"
                     placeholder="Job Requirements"><%= typeof job_requirements != 'undefined' ? job_requirements : '' %></textarea>
             </div>
 
             <div class="form-group">
 
-                <textarea class="form-control" id="job_keywords" name="job_keywords" rows="1"
+                <textarea class="form-control " id="job_keywords" name="job_keywords" rows="1"
                     placeholder="Enter Keywords"><%= typeof job_keywords != 'undefined' ? job_keywords : '' %></textarea>
             </div>
             <button type="submit" class="btn btn-primary ">
@@ -87,13 +88,12 @@
         </form>
     </div>
     <div class="tab-pane fade" id="pills-viewjobs" role="tabpanel" aria-labelledby="pills-viewjobs-tab">
-        <div class="list-group" 
-        style="max-height: 800px; 
+        <div class="list-group" style="max-height: 800px; 
         margin-bottom: 10px;
         overflow:scroll;
         -webkit-overflow-scrolling: touch;
         ">
-           
+
             <%- include ('./partials/jobs'); -%>
             <!-- <a href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
                 <div class="d-flex w-100 justify-content-between">

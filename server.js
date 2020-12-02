@@ -6,10 +6,10 @@ import passport from "passport";
 import flash from "connect-flash";
 import session from "express-session";
 import path from "path";
+import cors from "cors";
 dotenv.config();
-
 const app = express();
-
+app.use(cors());
 //Passport config
 import passConfig from "./config/passport.js";
 passConfig(passport);

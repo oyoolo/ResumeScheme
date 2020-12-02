@@ -1,6 +1,6 @@
 import Resume from "../models/ResumeModel.js";
 import fs from "fs";
-
+import path from "path";
 //Controls Resume Methods
 export default class ResumeController {
   constructor() {}
@@ -24,10 +24,13 @@ export default class ResumeController {
         let buffer = resume.resume_file.data.buffer;
         fs.writeFileSync("uploadedResume.pdf", buffer);
         req.flash("success_msg", "Resume Downloaded");
+        res.download(`${path.resolve()}/uploadedResume.pdf`, `${resume.resume_file.metadata.originalname}`, (err) => {
+          if (err) console.log(err);
+        });
       } else {
         req.flash("error_msg", "Resume Unavailable");
+        res.redirect(req.get("referer"));
       }
-      res.redirect(req.get("referer"));
     } catch (error) {
       res.json({ error });
       console.error(error);
