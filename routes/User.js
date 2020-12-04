@@ -1,11 +1,18 @@
 import express from 'express'
 import { forwardAuthenticated, ensureAuthenticated } from '../config/auth.js'
 import UserController from '../controllers/UserController.js'
-
+import SystemController from '../controllers/SystemController.js'
 const router = express.Router()
 
 // Welcome Page
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome', { title: "TEST THIS" }));
+
+//Admin
+router.get('/admin', async (req, res) => {
+  await new SystemController().suggestJobs()
+  res.render('welcome', { title: "TEST THIS" })
+
+});
 
 // Dashboard
 router.get('/dashboard', ensureAuthenticated, new UserController().dashboard);

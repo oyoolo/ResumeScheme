@@ -1,11 +1,11 @@
-<% let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
+<% let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { console.log(job);%>
     
 <div class="list-group-item list-group-item-action flex-column align-items-start ">
     <div class="card h-200" href="#" style="width: auto; ">
         <!-- <div class="card-header">
         </div> -->
         <div class="card-body" data-toggle="modal" data-target="#exampleModal<%= index%>">
-            <h5 class="card-title"><%= job.job_type %> <%= job.job_title %> <small> ( Match % )</small></h5>
+            <h5 class="card-title"><%= job.job_type %> <%= job.job_title %> <small> ( Match <%= job.job_percentMatched %> % )</small></h5>
             <h6 class="card-subtitle mb-2 text-muted"><%= job.company_name %></h6>
             <a href="/jobseeker/apply/<%= job.id %> " class="card-link"> Quick Apply</a>
             <a href="#" class="card-link"> Save</a>
@@ -20,7 +20,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel"><%= job.job_title  %> at <%= job.company_name %> </h5>
-                <small> ( Match % )</small>
+                <small> ( Match <%= job.job_percentMatched %>  % )</small>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

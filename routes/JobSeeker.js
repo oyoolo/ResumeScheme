@@ -14,11 +14,7 @@ let storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname
-      + "-" + Date.now()
-    );
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 
@@ -28,7 +24,7 @@ let upload = multer({
 });
 
 //All jobseeker
-// router.get('/', jobSeekerController.getAllJobSeekers);
+router.get('/', jobSeekerController.getAllJobSeekers);
 
 //Add job seeker (brute force)
 // router.post("/", jobSeekerController.addJobSeeker);
@@ -63,10 +59,10 @@ router.get("/download_resume", jobSeekerController.downloadResume);
 
 //View Jobs
 router.get("/viewjobs", ensureAuthenticated, async (req, res) => {
-  let jobs = await sysControl.suggestJobs();
+ 
   res.render("jobseekerdashboard", {
     jobseeker: req.user,
-    jobs,
+    jobs: req.user.suggestedJobs,
   });
 });
 

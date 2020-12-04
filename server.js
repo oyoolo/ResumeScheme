@@ -79,7 +79,7 @@ mongoose.connect(
     if (err) console.log(err);
     else console.log("connected to DB!");
   }
-);
+)
 
 //Run server
 app.listen(3000, (err) => {

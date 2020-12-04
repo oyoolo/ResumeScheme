@@ -112,11 +112,11 @@ class EmployerController extends UserController {
 
   async register(req, res) {
     try {
-      const { company_name, company_email, password, password2 } = req.body;
+      const { company_name, company_email, company_type, password , password2 } = req.body;
 
       let errors = [];
 
-      if (!company_name || !company_email || !password || !password2) {
+      if (!company_name || !company_email || !password || !password2 ||!company_type) {
         errors.push({
           msg: "Please enter all fields",
         });
@@ -139,6 +139,7 @@ class EmployerController extends UserController {
           errors,
           company_name,
           company_email,
+          company_type,
           password,
           password2,
         });
@@ -160,6 +161,7 @@ class EmployerController extends UserController {
             errors,
             company_name,
             company_email,
+            company_type,
             password,
             password2,
           });
@@ -167,6 +169,7 @@ class EmployerController extends UserController {
           const newUser = new Employer({
             company_name,
             company_email,
+            company_type,
             password,
           });
 
