@@ -56,15 +56,15 @@
             <div class="modal-body">
                 <h6 class="card-subtitle mb-2 text-muted">Applicants</h6>
                 <ul class="list-group">
-                    <% job.job_applicants.forEach(email => { %>
+                    <% job.job_applicants.forEach(job => { %>
                     <li class="list-group-item d-flex  align-items-center">
-                        <%= email %>
-                        <span class="badge badge-primary badge-pill"> Match %</span>
+                        <%= job.email %>
+                        <span class="badge badge-primary badge-pill"> Match <%= job.match %> %</span>
 
                         <div class="btn-group justify-content-right" role="group" aria-label="Basic example" style=" position: absolute; right: 10px;
                           top: 5px;">
                             <a type="button" class="btn btn-outline-success"
-                                href="/resumes/<%= email %>/download">Resume</a>
+                                href="/resumes/<%= job.email %>/download">Resume</a>
                             <button type="button" class="btn btn-outline-success">Favorite</button>
                         </div>
                     </li>

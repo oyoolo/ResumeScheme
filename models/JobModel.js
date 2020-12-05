@@ -14,7 +14,7 @@ const joiSchema = Joi.object().keys({
     job_type: Joi.string().required(),
     job_category: Joi.string().required(),
     job_keywords: Joi.array().items(Joi.string().required()),
-    job_applicants: Joi.array().items(Joi.string()),
+    job_applicants: Joi.array(),
 });
 const JobSchema = new mongoose.Schema(Joigoose.convert(joiSchema), {
     collection: "Jobs",

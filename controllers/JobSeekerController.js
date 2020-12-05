@@ -46,10 +46,15 @@ class JobSeekerController {
       const jobseeker = await JobSeeker.findById(req.user.id);
       if (job && jobseeker) {
         let { job_applicants } = job;
-        let { job_applications } = jobseeker;
+        let { job_applications, suggestedJobs } = jobseeker;
+        const suggestion = suggestedJobs.find(j => j.id === req.params.jobID)
+        const input = {
+          email: req.user.user_email, 
+          match: suggestion.job_percentMatched
+        }
 
-        if (!job_applicants.includes(req.user.user_email)) {
-          job_applicants.push(req.user.user_email);
+        if (!job_applicants.includes(input)) {
+          job_applicants.push(input);
           await job.updateOne(
             {
               job_applicants,
