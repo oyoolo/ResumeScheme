@@ -15,7 +15,12 @@ class JobSeekerController {
 
   }
 
-  //
+   /**
+  * 
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * @param {} next middleware
+  */
   async getAllJobSeekers(req, res) {
     try {
       const jobseekers = await JobSeeker.find();
@@ -27,7 +32,12 @@ class JobSeekerController {
       });
     }
   }
-
+ /**
+  * 
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * @param {} next middleware
+  */
   async getApplications(req, res){
     try {
       
@@ -40,6 +50,13 @@ class JobSeekerController {
       res.json(error)
     }
   }
+
+   /**
+  * 
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * 
+  */
   async applyToJob(req, res) {
     try {
       const job = await Job.findById(req.params.jobID);
@@ -53,7 +70,7 @@ class JobSeekerController {
           match: suggestion.job_percentMatched
         }
 
-        if (!job_applicants.includes(input)) {
+        if (!job_applicants.some(applicant => applicant.email === input.email)) {
           job_applicants.push(input);
           await job.updateOne(
             {
@@ -69,7 +86,7 @@ class JobSeekerController {
           });
           req.flash("success_msg", "Applied!");
           res.redirect("/jobseeker/viewjobs");
-        } else if (job_applicants.includes(req.user.user_email)) {
+        } else if (job_applicants.some(applicant => applicant.email === input.email)) {
           req.flash("error_msg", "Already Applied!");
           res.redirect("/jobseeker/viewjobs");
         }
@@ -83,7 +100,12 @@ class JobSeekerController {
       console.error(error);
     }
   }
-
+ /**
+  * 
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * @param {} next middleware
+  */
   login(req, res, next) {
     try {
       passport.authenticate("local-jobseeker", {
@@ -92,10 +114,16 @@ class JobSeekerController {
         failureFlash: true,
       })(req, res, next);
     } catch (error) {
-      console.log(error);
+      
       res.status(400).json(error);
     }
   }
+   /**
+  * 
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * @param {} next middleware
+  */
   async viewResume(req, res, next) {
     try {
       const jobseeker = req.user;
@@ -103,11 +131,17 @@ class JobSeekerController {
         name: jobseeker.fullname,
       });
     } catch (error) {
-      console.error(error);
+      res.json(error);
+      
     }
   }
 
-  //
+ /**
+  * 
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * @param {} next middleware
+  */
   async submitResume(req, res, next) {
     try {
       let { resume_content } = req.body;
@@ -178,10 +212,15 @@ class JobSeekerController {
       }
     } catch (error) {
       res.json(error);
-      console.log(error);
+      
     }
   }
-
+ /**
+  * New jobseeker registration
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * 
+  */
   async register(req, res) {
     try {
       const { fullname, user_email, password, password2 } = req.body;
@@ -259,7 +298,7 @@ class JobSeekerController {
                     "success_msg",
                     "You are now registered and can log in"
                   );
-                  res.redirect("/login");
+                  res.redirect("/jobseeker/login");
                 })
                 .catch((err) => console.log(err));
             });
@@ -271,7 +310,13 @@ class JobSeekerController {
     }
   }
 
-  //To download a resume from Mongo
+
+   /**
+  * To download a resume from Mongo
+  * @param {Express.Request} req 
+  * @param {Express.Response} res 
+  * @param {} next middleware
+  */
   async downloadResume(req, res) {
     try {
       let resume = await Resume.findOne();
@@ -283,7 +328,11 @@ class JobSeekerController {
     }
   }
 }
-
+/**
+ * Extract string for resumes
+ * @param {File} file 
+ * @returns {Promise} text of resume
+ */
 function getContent(file) {
   const options = {};
   return new Promise((resolve, reject) => {

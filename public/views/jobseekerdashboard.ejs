@@ -1,85 +1,180 @@
+<script src="https://cdn.tiny.cloud/1/js43tskjb05nnemckesotop4v2jlssyebski80gpez6g5kw4/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
 
-<h1 class="mt-4">ResumeScheme </h1>
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-    <li class="nav-item">
-        <a class="navbar-brand" id="pills-updateresume-tab"><%= jobseeker.fullname %></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link " id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-            aria-controls="pills-home" aria-selected="true">Home</a>
+    });
+</script>
 
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" id="pills-updateresume-tab" data-toggle="pill" href="#pills-updateresume" role="tab"
-            aria-controls="pills-updateresume" aria-selected="true">Add Resume</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="pills-viewjobs-tab" data-toggle="pill" href="#pills-viewjobs" role="tab"
-            aria-controls="pills-viewjobs" aria-selected="false"> Suggested Jobs</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="pills-applications-tab" data-toggle="pill" href="#pills-applications" role="tab"
-            aria-controls="pills-applications" aria-selected="false"> Job Applications</a>
-    </li>
+<section class="menu cid-s48OLK6784" once="menu" id="menu1-h">
 
-    <li class="nav-item">
-        <a class=" btn btn-block nav-link" id="pills-logout-tab" href="/logout" role="tab" aria-controls="pills-logout"
-            aria-selected="false">Log Out</a>
-    </li>
-</ul>
-<%- include ('./partials/messages'); -%>
-<div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-    </div>
-    <div class="tab-pane fade show active" id="pills-updateresume" role="tabpanel"
-        aria-labelledby="pills-updateresume-tab">
-
-        <form action="/jobseeker/submit_resume" method="POST" method="POST" enctype="multipart/form-data">
-
-            <div class="form-group">
-                <label for="resume_content">Resume Content</label>
-                <textarea class="form-control" id="resume_content" name="resume_content" rows="10"
-                    placeholder="Paste Resume"><%= typeof resume_content!= 'undefined' ? resume_content : '' %></textarea>
+    <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+        <div class="container">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="/">
+                        <img src="../views/assets/images/logo.png" alt="Mobirise" style="height: 3.8rem;">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7"
+                        href="/">ResumeScheme</a></span>
             </div>
-
-
-            <div class="input-group">
-                <div class="custom-file">
-                    <label class="custom-file-label" for="resumefile"></label>
-                    <input type="file" class="custom-file-input" id="resumefile" name="resumefile" value=""
-                        aria-describedby="inputGroupFileAddon04">
-                    
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon04">Upload</button>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav navbar-nav  nav-dropdown nav-right" data-app-modern-menu="true" id="pills-tab"
+                    role="tablist">
+
+
+                    <li class="nav-item">
+                        <a class="navbar-brand nav-link link text-black display-4" id="pills-home-tab"
+                            data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+                            aria-selected="true"><%= jobseeker.fullname %></a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="navbar-brand nav-link link text-black display-4 active" id="pills-updateresume-tab"
+                            data-toggle="pill" href="#pills-updateresume" role="tab" aria-controls="pills-updateresume"
+                            aria-selected="true">Add Resume</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navbar-brand nav-link link text-black display-4" id="pills-viewjobs-tab"
+                            data-toggle="pill" href="#pills-viewjobs" role="tab" aria-controls="pills-viewjobs"
+                            aria-selected="false"> Suggested Jobs</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="navbar-brand nav-link link text-black display-4" id="pills-applications-tab" data-toggle="pill" href="#pills-applications" role="tab"
+                            aria-controls="pills-applications" aria-selected="false"> Job Applications</a>
+                    </li> -->
+
+                    <li class="nav-item">
+                        <a class="navbar-brand nav-link link text-black display-4" id="pills-logout-tab" href="/logout"
+                            role="tab" aria-controls="pills-logout" aria-selected="false">Log Out</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <%- include ('./partials/messages'); -%>
+</section>
+
+<section class="header1 cid-s48MCQYojq mbr-fullscreen mbr-parallax-background" id="header1-f">
+    <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(255, 255, 255);"></div>
+
+    <div class=" container " style=" position: absolute;
+                margin: auto;
+                top: 0;          
+                padding: 20px;">
+        <div class="row justify-content-center">
+            <div class="col col-lg-10">
+
+                <%- include ('./partials/messages'); -%>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1">resume<strong>scheme</strong></h1>
+
+                        <p class="mbr-text mbr-fonts-style display-7">A better way to track potential talent, better way
+                            to find
+                            work.
+                        </p>
+                        <div class="mbr-section-btn mt-3"><a class="btn btn-success display-4" href="/register">Get
+                                Started</a>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade show active display-4" id="pills-updateresume" role="tabpanel"
+                        aria-labelledby="pills-updateresume-tab">
+
+                        <form action="/jobseeker/submit_resume" method="POST" enctype="multipart/form-data"
+                            class="form">
+
+                            <div class="form-group">
+                                <label for="resume_content">Resume Content</label>
+                                <textarea class="form-control" id="resume_content" name="resume_content" rows="10"
+                                    placeholder="Paste Resume"><%= typeof resume_content!= 'undefined' ? resume_content : '' %></textarea>
+                            </div>
+
+
+
+
+                            <div class="input-group  ">
+
+
+                                <div class="custom-file ">
+                                    <label class="custom-file-label display-4" for="resumefile"></label>
+                                    <input type="file" class="custom-file-input display-4" id="resumefile"
+                                        name="resumefile" value="" aria-describedby="inputGroupFileAddon04">
+
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="">
+                                
+                                <button class="mbr-section-btn btn btn-success display-4"
+                                    type="submit">Upload</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+
+
+                    <div class="tab-pane fade" id="pills-viewjobs" role="tabpanel" aria-labelledby="pills-viewjobs-tab">
+                        <div class="list-group" >
+
+                            <%- include ('./partials/jobrecommendations'); -%>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-applications" role="tabpanel"
+                        aria-labelledby="pills-applications-tab">
+                        <div class="list-group">
+
+                            <%- include ('./partials/applications'); -%>
+
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-        </form>
-    </div>
-    <div class="tab-pane fade" id="pills-viewjobs" role="tabpanel" aria-labelledby="pills-viewjobs-tab">
-        <div class="list-group" style="
-        max-height: 800px; 
-        margin-bottom: 10px;
-        overflow:scroll;
-        -webkit-overflow-scrolling: touch;
-        ">
-
-        <%- include ('./partials/jobrecommendations'); -%>
-
         </div>
     </div>
-    <div class="tab-pane fade" id="pills-applications" role="tabpanel" aria-labelledby="pills-applications-tab">
-        <div class="list-group" style="
-        max-height: 800px; 
-        margin-bottom: 10px;
-        overflow:scroll;
-        -webkit-overflow-scrolling: touch;
-        ">
+</section>
 
-            <%- include ('./partials/applications'); -%>
+<section class="footer3 cid-s48P1Icc8J" once="footers" id="footer3-i">
+    <div class="container">
+        <div class="media-container-row align-center mbr-white">
+            <div class="row row-links">
+                <ul class="foot-menu">
+                    <li class="foot-menu-item mbr-fonts-style display-7"><a href="#" class="text-success">Help
+                            Center</a></li>
+                    <li class="foot-menu-item mbr-fonts-style display-7"><a href="#" class="text-success">FAQ</a></li>
+                    <li class="foot-menu-item mbr-fonts-style display-7"><a href="#"
+                            class="text-success">ResumeScheme.com</a>
+                    </li>
+                </ul>
+            </div>
 
+            <div class="row row-copirayt">
+                <p class="mbr-text mb-0 mbr-fonts-style mbr-white align-center display-7">
+                    © Copyright 2020 ResumeScheme, Inc. All Rights Reserved.
+                </p>
+            </div>
         </div>
     </div>
-</div>
+</section>
+<section style="background-color: #fff; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; 
+    color:#aaa; font-size:12px; padding: 0; 
+    align-items: center; display: flex;">
+    <a href="https://mobirise.site/p" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
+</section>

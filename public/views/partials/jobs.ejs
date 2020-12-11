@@ -1,7 +1,7 @@
 <%let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %>
 <div class="list-group-item list-group-item-action flex-column align-items-start ">
     <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1"> <%= job.job_title %> </h5>
+      <h5 class=" mbr-text mbr-fonts-style display-7">  <strong><%= job.job_title %> </strong> </h5>
         <a href="#">
             <small data-toggle="modal" data-target="#exampleModal<%= index%>">
                 <%= job.job_applicants.length %>
@@ -9,46 +9,20 @@
             </small>
         </a>
     </div>
-    <small><%= job.job_type %></small>
-    <p class="mb-1"><%= job.job_requirements %></p>
-    <div class="row">
+    <small class="display-7"><strong><%= job.job_type %></strong></small>
+    <p class="mb-1  mbr-fonts-style display-7" ><%= job.job_requirements %></p>
+    <!-- <div class="row">
         <a class="btn " href="#">Edit</a>
         <a class="btn " href="#">Delete</a>
-    </div>
+    </div> -->
 </div>
-<div class="modal fade" id="exampleModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><%= job.job_title  %> at <%= job.company_name %> </h5>
-                <small> ( Match % )</small>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <h6 class="card-subtitle mb-2 text-muted"><%= job.job_type %></h6>
-                <h6><%= job.job_locations %> </h6>
-                <h6>Description</h6>
-                <p class="card-text"><%= job.job_description %></p>
-                <h6>Requirements</h6>
-                <p class="card-text"><%= job.job_requirements %></p>
 
-            </div>
-            <div class="modal-footer">
-                <a href="/jobseeker/apply/<%= job.id %> " class="card-link btn btn-primary">Apply</a>
-                <a href="#" class="card-link btn btn-secondary">Save</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="exampleModal<%= index%>" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+<div class="modal fade display-7" id="exampleModal<%= index%>" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true"  style="margin-top: 150px; height: 400px;" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><%= job.job_title  %> </h5>
+                <h5 class="modal-title mbr-text mbr-fonts-style " id="exampleModalLabel"><%= job.job_title  %> </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -56,16 +30,17 @@
             <div class="modal-body">
                 <h6 class="card-subtitle mb-2 text-muted">Applicants</h6>
                 <ul class="list-group">
-                    <% job.job_applicants.forEach(job => { %>
+                    <% job.job_applicants.forEach(applicant => { %>
                     <li class="list-group-item d-flex  align-items-center">
-                        <%= job.email %>
-                        <span class="badge badge-primary badge-pill"> Match <%= job.match %> %</span>
+                        <div class=""><%= applicant.email %> </div>
+                                                 
+                        <span class="badge badge-primary badge-pill"><%= parseInt(applicant.match * 100) %>% Match</span>
 
-                        <div class="btn-group justify-content-right" role="group" aria-label="Basic example" style=" position: absolute; right: 10px;
-                          top: 5px;">
-                            <a type="button" class="btn btn-outline-success"
-                                href="/resumes/<%= job.email %>/download">Resume</a>
-                            <button type="button" class="btn btn-outline-success">Favorite</button>
+                        <div class="btn-group justify-content-right" role="group" aria-label="Basic example" style=" position: absolute; right: 10px;">
+                            
+                            <a type="button" class="btn "
+                                href="/resumes/<%= applicant.email %>/download"> <i class="fas fa-cloud-download-alt"></i>  Resume</a>
+                            <!-- <button type="button" class="btn ">Favorite</button> -->
                         </div>
                     </li>
                     <%});%>

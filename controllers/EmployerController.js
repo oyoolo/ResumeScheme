@@ -3,7 +3,6 @@ import JobSeeker from "../models/JobSeekerModel.js";
 import Job from "../models/JobModel.js";
 import bcrypt from "bcryptjs";
 import UserController from "./UserController.js";
-import ResumeController from "./ResumeController.js";
 import passport from "passport";
 
 class EmployerController extends UserController {
@@ -11,19 +10,32 @@ class EmployerController extends UserController {
     super();
   }
 
+  /**
+   * Get all jobs in db
+   * @param {Express.Request} req 
+   * @param {Express.Response} res 
+   */
   async getJobs(req, res) {
     try {
       if (req.user.company_email) {
         let jobs = await Job.find({ company_email: req.user.company_email });
         // res.render("employerdashboard", { employer: req.user, jobs });
-        // console.log(jobs)
+       
         return jobs;
+        //For public use
         // res.json({ jobs })
       } else res.status(403).send("Forbidden");
     } catch (error) {
       res.json(error);
     }
   }
+
+  //Get all employers in db
+  /**
+   * 
+   * @param {Express.Request} req 
+   * @param {Express.Response} res 
+   */
   async getAllEmployers(req, res) {
     try {
       const employers = await Employer.find();
@@ -35,6 +47,13 @@ class EmployerController extends UserController {
       });
     }
   }
+
+
+  /**
+   * Get applicants of a job
+   * @param {Express.Request} req 
+   * @param {Express.Response} res
+   */
   async getApplicants(req, res) {
     try {
       if (req.user.company_email) {
@@ -48,6 +67,11 @@ class EmployerController extends UserController {
     }
   }
 
+  /**
+   * Post a new job
+   * @param {Express.Request} req 
+   * @param {Express.Response} res
+   */
   async postJob(req, res) {
     try {
       let keywords = req.body.job_keywords;
@@ -110,8 +134,16 @@ class EmployerController extends UserController {
     }
   }
 
+  /**
+   * New Employer registration
+   * @param {Express.Request} req 
+   * @param {Express.Response} res
+   */
+
   async register(req, res) {
     try {
+
+      //Use library
       const { company_name, company_email, company_type, password , password2 } = req.body;
 
       let errors = [];
@@ -173,6 +205,7 @@ class EmployerController extends UserController {
             password,
           });
 
+          //Update to new bcrypt
           bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newUser.password, salt, (err, hash) => {
               if (err) throw err;
@@ -196,6 +229,12 @@ class EmployerController extends UserController {
     }
   }
 
+  /**
+   * Log into db
+   * @param {Express.Request} req 
+   * @param {Express.Response} res
+   * @param {Express.Next} Express next middleware
+   */
   login(req, res, next) {
     try {
       passport.authenticate("local-employer", {

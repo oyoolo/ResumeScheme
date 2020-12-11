@@ -6,6 +6,7 @@ const LocalStrategy = Local.Strategy
 import Employer from '../models/EmployerModel.js';
 import JobSeeker from "../models/JobSeekerModel.js";
 
+//Creates a session user
 class SessionConstructor {
   constructor(userId, userType) {
     this.userId = userId;
@@ -13,6 +14,10 @@ class SessionConstructor {
   }
 }
 
+/**
+ * Comfigure passport auth
+ * @param {import('passport').PassportStatic} passport 
+ */
 export default function (passport) {
   passport.use('local-employer', new LocalStrategy({
     usernameField: 'email'
@@ -72,6 +77,12 @@ export default function (passport) {
 
 };
 
+/**
+ * Validate user password
+ * @param {String} password 
+ * @param {import('mongoose').Model} user 
+ * 
+ */
 function validate(password, user, done) {
   if (!user) {
     return done(null, false, {

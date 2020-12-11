@@ -1,10 +1,8 @@
 import express from "express";
 import JobSeekerController from "../controllers/JobSeekerController.js";
 import multer from "multer";
-import SystemController from "../controllers/SystemController.js";
 import { forwardAuthenticated, ensureAuthenticated } from "../config/auth.js";
 
-const sysControl = new SystemController();
 const router = express.Router();
 const jobSeekerController = new JobSeekerController();
 

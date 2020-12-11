@@ -10,6 +10,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 app.use(cors());
+
 //Passport config
 import passConfig from "./config/passport.js";
 passConfig(passport);
@@ -60,13 +61,14 @@ import jobseekerRoute from "./routes/JobSeeker.js";
 import jobRoute from "./routes/Job.js";
 import resumeRoute from "./routes/Resume.js";
 import userRoute from "./routes/User.js";
-
+import adminRoute from "./routes/Admin.js";
 //Middleware for routes
 app.use("/employer", employerRoute);
 app.use("/jobseeker", jobseekerRoute);
 app.use("/jobs", jobRoute);
 app.use("/resumes", resumeRoute);
 app.use("/", userRoute);
+app.use("/admin", adminRoute);
 
 //Connect to DB
 mongoose.connect(
@@ -79,7 +81,7 @@ mongoose.connect(
     if (err) console.log(err);
     else console.log("connected to DB!");
   }
-)
+);
 
 //Run server
 app.listen(3000, (err) => {

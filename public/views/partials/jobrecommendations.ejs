@@ -1,36 +1,38 @@
-<% let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { console.log(job);%>
-    
-<div class="list-group-item list-group-item-action flex-column align-items-start ">
-    <div class="card h-200" href="#" style="width: auto; ">
-        <!-- <div class="card-header">
-        </div> -->
-        <div class="card-body" data-toggle="modal" data-target="#exampleModal<%= index%>">
-            <h5 class="card-title"><%= job.job_type %> <%= job.job_title %> <small> ( Match <%= job.job_percentMatched %> % )</small></h5>
-            <h6 class="card-subtitle mb-2 text-muted"><%= job.company_name %></h6>
-            <a href="/jobseeker/apply/<%= job.id %> " class="card-link"> Quick Apply</a>
-            <a href="#" class="card-link"> Save</a>
+
+
+<% let index = 0; if(typeof jobs != 'undefined'){ %> <% jobs.forEach(function(job) { %> 
+<div class="list-group-item list-group-item-action flex-column align-items-start display-4"  style="background-color: rgba(255, 255, 255, 0); border: none;">
+    <div class="card h-200" href="#" style="background-color: white;" style="margin: 0;">
+       
+        <div class="card-body" data-toggle="modal" data-target="#exampleModal<%= index%>" style="margin: 0;">
+            <h4 class="card-title"><%= job.job_type %> <%= job.job_title %> <small class="badge badge-default badge-pill"><%= parseInt(job.job_percentMatched * 100) %>% Match</small></h4>
+            <h5 class="card-subtitle mb-2 text-muted"><%= job.company_name %></h5>
+            <!-- <a href="/jobseeker/apply/<%= job.id %> " class="card-link"> Quick Apply</a> -->
+            <!-- <a href="#" class="card-link"> Save</a> -->
         </div>
-        <!-- <div class="card-footer text-muted text-right">
-        </div> -->
+        
     </div>
 </div>
-<div class="modal fade" id="exampleModal<%= index%>" data-backdrop="static" data-keyboard="false" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade display-7" id="exampleModal<%= index%>" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top: 150px; height: 800px;">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><%= job.job_title  %> at <%= job.company_name %> </h5>
-                <small> ( Match <%= job.job_percentMatched %>  % )</small>
+                <h4 class="modal-title" id="exampleModalLabel"><strong><%= job.job_title  %> at <%= job.company_name %> </strong></h4>
+                <small class="badge badge-default badge-pill"><%= parseInt(job.job_percentMatched * 100) %>% Match</small>
+               
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <h6 class="card-subtitle mb-2 text-muted"><%= job.job_type %></h6>
-                <h6><%= job.job_locations %> </h6>
-                <h6>Description</h6>
+                <h5 class="card-subtitle mb-2 text-muted"><strong><%= job.job_type %></strong></h5>
+                <h5><strong>Location(s): </strong> <%= job.job_locations %> </h5>
+                <br>
+                <h5><strong>Description</strong></h5>
                 <p class="card-text"><%= job.job_description %></p>
-                <h6>Requirements</h6>
+                <br>
+                <h5><strong>Requirements</strong></h5>
                 <p class="card-text"><%= job.job_requirements %></p>
             </div>
             <div class="modal-footer">

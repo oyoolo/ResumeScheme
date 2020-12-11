@@ -3,6 +3,7 @@ import Joi from "joi";
 import joigoose from "joigoose";
 const Joigoose = joigoose(mongoose);
 
+//Employer properties
 const joiSchema = Joi.object().keys({
   company_name: Joi.string().min(3).max(30).required(),
   password: Joi.string(),

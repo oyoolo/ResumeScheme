@@ -1,22 +1,32 @@
 import Resume from "../models/ResumeModel.js";
 import fs from "fs";
 import path from "path";
+
 //Controls Resume Methods
 export default class ResumeController {
   constructor() {}
 
-  //All / One Resume In MongoDB
+  /**
+   * All Resumes in the db
+   * @param {Express.Request} req 
+   * @param {Express.Response} res
+   * @returns {JSON} 
+   */
   async getAllResumes(req, res) {
     try {
       let resume = await Resume.findOne({});
-      console.log("Finding Resumes");
       res.json(resume.resume_file);
     } catch (error) {
       res.json(error);
     }
   }
 
-  //To download a resume from Mongo
+
+  /**
+   * To download a resume from Mongo
+   * @param {Express.Request} req 
+   * @param {Express.Response} res 
+   */
   async downloadResume(req, res) {
     try {
       let resume = await Resume.findOne({ resume_owner: req.params.email });
@@ -33,7 +43,7 @@ export default class ResumeController {
       }
     } catch (error) {
       res.json({ error });
-      console.error(error);
+     
     }
   }
 }

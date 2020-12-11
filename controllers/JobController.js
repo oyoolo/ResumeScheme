@@ -6,6 +6,10 @@ class JobController extends UserController {
     super();
   }
 
+  /**Returns job with specified id
+   * @param {String} id of specified job
+   * @returns {Object} job
+   */
   async getById(id) {
     try {
       const job = await Job.findById(id);
@@ -14,6 +18,12 @@ class JobController extends UserController {
       console.error(err);
     }
   }
+
+  /**
+   * All Jobs in db
+   * @param {Express.Request} req 
+   * @param {Express.Response} res 
+   */
   async getAllJobs(req, res) {
     try {
       const jobs = await Job.find();
@@ -25,7 +35,11 @@ class JobController extends UserController {
       });
     }
   }
-
+/**
+   * Add new job in db
+   * @param {Express.Request} req 
+   * @param {Express.Response} res 
+   */
   async addJob(req, res) {
     try {
       const input = {
