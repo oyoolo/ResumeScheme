@@ -7,11 +7,12 @@ export default class SystemController {
   //INCOMPLETE
   /**
    * Calculate % match
+   * @private
    * @param {Array} keywords from job
    * @param {String} content body of resume
    * @returns {Promise} % match
    */
-  getPercentMatch(keywords, content) {
+   #getPercentMatch(keywords, content) {
     return new Promise((resolve, reject) => {
       try {
         resolve((Math.round(Math.random() * 100) / 100).toFixed(2));
@@ -35,7 +36,7 @@ export default class SystemController {
       jobs.forEach(async (job) => {
         try {
           let keywords = job.job_keywords;
-          let percent = await this.getPercentMatch(keywords, resume_content);
+          let percent = await this.#getPercentMatch(keywords, resume_content);
           if (percent >= 0.5) {
             let suggestion = {
               company_name: job.company_name,

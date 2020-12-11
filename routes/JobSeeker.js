@@ -22,7 +22,7 @@ let upload = multer({
 });
 
 //All jobseeker
-router.get('/', jobSeekerController.getAllJobSeekers);
+router.get("/", jobSeekerController.getAllJobSeekers);
 
 //Add job seeker (brute force)
 // router.post("/", jobSeekerController.addJobSeeker);
@@ -38,12 +38,12 @@ router.get("/register", forwardAuthenticated, (req, res) =>
 );
 router.post("/register", jobSeekerController.register);
 
-//Submit Resume
-router.get(
-  "/submit_resume",
-  ensureAuthenticated,
-  jobSeekerController.viewResume
-);
+// //Submit Resume
+// router.get(
+//   "/submit_resume",
+//   ensureAuthenticated,
+//   jobSeekerController.viewResume
+// );
 //Submit Resume
 router.post(
   "/submit_resume",
@@ -57,7 +57,6 @@ router.get("/download_resume", jobSeekerController.downloadResume);
 
 //View Jobs
 router.get("/viewjobs", ensureAuthenticated, async (req, res) => {
- 
   res.render("jobseekerdashboard", {
     jobseeker: req.user,
     jobs: req.user.suggestedJobs,

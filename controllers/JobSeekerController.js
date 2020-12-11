@@ -11,16 +11,13 @@ const { PDFExtract } = pkg;
 const pdfExtract = new PDFExtract();
 
 class JobSeekerController {
-  constructor() {
-
-  }
-
-   /**
-  * 
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * @param {} next middleware
-  */
+  /**
+   *Get all jobseeekers in db
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @param {NextFunction} next  middleware
+   * @returns {JSON} jobseekers
+   */
   async getAllJobSeekers(req, res) {
     try {
       const jobseekers = await JobSeeker.find();
@@ -32,31 +29,30 @@ class JobSeekerController {
       });
     }
   }
- /**
-  * 
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * @param {} next middleware
-  */
-  async getApplications(req, res){
+  /**
+   *Find jobs that a user applied to
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @param {NextFunction} next  middleware
+   * @returns {JSON} jobs
+   */
+  async getApplications(req, res) {
     try {
-      
-      let ids = req.user.job_applications
-      
-      let jobs = await Job.find().where('_id').in(ids).exec()
-      res.json({jobs})
-      
+      let ids = req.user.job_applications;
+
+      let jobs = await Job.find().where("_id").in(ids).exec();
+      res.json({ jobs });
     } catch (error) {
-      res.json(error)
+      res.json(error);
     }
   }
 
-   /**
-  * 
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * 
-  */
+  /**
+   *Apply to a job
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   *
+   */
   async applyToJob(req, res) {
     try {
       const job = await Job.findById(req.params.jobID);
@@ -64,13 +60,15 @@ class JobSeekerController {
       if (job && jobseeker) {
         let { job_applicants } = job;
         let { job_applications, suggestedJobs } = jobseeker;
-        const suggestion = suggestedJobs.find(j => j.id === req.params.jobID)
+        const suggestion = suggestedJobs.find((j) => j.id === req.params.jobID);
         const input = {
-          email: req.user.user_email, 
-          match: suggestion.job_percentMatched
-        }
+          email: req.user.user_email,
+          match: suggestion.job_percentMatched,
+        };
 
-        if (!job_applicants.some(applicant => applicant.email === input.email)) {
+        if (
+          !job_applicants.some((applicant) => applicant.email === input.email)
+        ) {
           job_applicants.push(input);
           await job.updateOne(
             {
@@ -86,7 +84,9 @@ class JobSeekerController {
           });
           req.flash("success_msg", "Applied!");
           res.redirect("/jobseeker/viewjobs");
-        } else if (job_applicants.some(applicant => applicant.email === input.email)) {
+        } else if (
+          job_applicants.some((applicant) => applicant.email === input.email)
+        ) {
           req.flash("error_msg", "Already Applied!");
           res.redirect("/jobseeker/viewjobs");
         }
@@ -97,15 +97,14 @@ class JobSeekerController {
       res.status(500).json({
         error,
       });
-      console.error(error);
     }
   }
- /**
-  * 
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * @param {} next middleware
-  */
+  /**
+   * Jobseeker Login
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @param {} next middleware
+   */
   login(req, res, next) {
     try {
       passport.authenticate("local-jobseeker", {
@@ -114,16 +113,16 @@ class JobSeekerController {
         failureFlash: true,
       })(req, res, next);
     } catch (error) {
-      
       res.status(400).json(error);
     }
   }
-   /**
-  * 
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * @param {} next middleware
-  */
+  /**
+   * View resume within browser
+   * @ignore incomplete
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @param {NextFunction} next  middleware
+   */
   async viewResume(req, res, next) {
     try {
       const jobseeker = req.user;
@@ -132,16 +131,15 @@ class JobSeekerController {
       });
     } catch (error) {
       res.json(error);
-      
     }
   }
 
- /**
-  * 
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * @param {} next middleware
-  */
+  /**
+   *Upload a resume to MongoDb
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @param {NextFunction} next  middleware
+   */
   async submitResume(req, res, next) {
     try {
       let { resume_content } = req.body;
@@ -158,7 +156,7 @@ class JobSeekerController {
           req.file.size <= 2000000
         ) {
           let text = await getContent(dir);
-          resume_content = text
+          resume_content = text;
           input = {
             resume_content,
             resume_owner: req.user.user_email,
@@ -167,13 +165,11 @@ class JobSeekerController {
               metadata: req.file,
             },
           };
-          
         } else {
           req.flash("error_msg", "Choose PDF file");
-        
         }
       }
-      
+
       if (resume_content.length > 0) {
         let resume = await Resume.findOneAndUpdate(
           {
@@ -201,26 +197,22 @@ class JobSeekerController {
         );
 
         await jobseeker.save();
-
-        console.log("Resume Uploaded!");
         req.flash("success_msg", "Resume Updated!");
-
         res.status(204).redirect("/dashboard");
       } else {
         req.flash("error_msg", "Must Upload File or Paste");
-        res.redirect("/dashboard")
+        res.redirect("/dashboard");
       }
     } catch (error) {
       res.json(error);
-      
     }
   }
- /**
-  * New jobseeker registration
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * 
-  */
+  /**
+   * New jobseeker registration
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   *
+   */
   async register(req, res) {
     try {
       const { fullname, user_email, password, password2 } = req.body;
@@ -310,13 +302,12 @@ class JobSeekerController {
     }
   }
 
-
-   /**
-  * To download a resume from Mongo
-  * @param {Express.Request} req 
-  * @param {Express.Response} res 
-  * @param {} next middleware
-  */
+  /**
+   * To download a resume from Mongo
+   * @param {Express.Request} req
+   * @param {Express.Response} res
+   * @param {NextFunction} next  middleware
+   */
   async downloadResume(req, res) {
     try {
       let resume = await Resume.findOne();
@@ -324,13 +315,14 @@ class JobSeekerController {
       fs.writeFileSync("uploadedResume.pdf", buffer);
       res.redirect("/resumes/upload");
     } catch (error) {
+      res.json(error);
       console.error(error);
     }
   }
 }
 /**
  * Extract string for resumes
- * @param {File} file 
+ * @param {File} file
  * @returns {Promise} text of resume
  */
 function getContent(file) {

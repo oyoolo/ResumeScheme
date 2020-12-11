@@ -21,8 +21,8 @@ class JobController extends UserController {
 
   /**
    * All Jobs in db
-   * @param {Express.Request} req 
-   * @param {Express.Response} res 
+   * @param {Express.Request} req
+   * @param {Express.Response} res
    */
   async getAllJobs(req, res) {
     try {
@@ -35,10 +35,10 @@ class JobController extends UserController {
       });
     }
   }
-/**
+  /**
    * Add new job in db
-   * @param {Express.Request} req 
-   * @param {Express.Response} res 
+   * @param {Express.Request} req
+   * @param {Express.Response} res
    */
   async addJob(req, res) {
     try {

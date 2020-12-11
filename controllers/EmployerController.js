@@ -233,7 +233,7 @@ class EmployerController extends UserController {
    * Log into db
    * @param {Express.Request} req 
    * @param {Express.Response} res
-   * @param {Express.Next} Express next middleware
+   * @param {NextFunction} next  middleware
    */
   login(req, res, next) {
     try {
