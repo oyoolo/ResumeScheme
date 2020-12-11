@@ -9,7 +9,7 @@
 
 <section class="menu cid-s48OLK6784" once="menu" id="menu1-h">
 
-    <nav class="navbar navbar-dropdown navbar-fixed-top navbar-expand-lg">
+    <nav class="navbar navbar-fixed-top navbar-dropdown navbar-expand-lg">
         <div class="container">
             <div class="navbar-brand">
                 <span class="navbar-logo">
@@ -18,10 +18,11 @@
                     </a>
                 </span>
                 <span class="navbar-caption-wrap"><a class="navbar-caption text-black display-7"
-                        href="/">ResumeScheme</a></span>
+                        href="/"><%= employer.company_name %></a></span>
             </div>
-            <button class="navbar-toggler  first-button" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler  first-button" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <div class="hamburger animated-icon1">
                     <span></span>
                     <span></span>
@@ -30,41 +31,39 @@
                 </div>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="nav navbar-nav  nav-dropdown nav-right" data-app-modern-menu="true" id="pills-tab"
+                <ul class="nav navbar-nav nav-dropdown nav-right" data-app-modern-menu="true" id="pills-tab"
                     role="tablist">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
 
                         <a class="navbar-brand nav-link link text-black display-4"
                             id="pills-addjob-tab"><%= employer.company_name %></a>
 
+                    </li> -->
+                    <li class="nav-item">
+
+                        <a class="navbar-brand nav-link active link text-black display-4" id="pills-home-tab"
+                            data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home">Home</a>
+
                     </li>
                     <li class="nav-item">
 
-                        <a class="navbar-brand nav-link link text-black display-4" id="pills-home-tab"
-                            data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
-                            aria-selected="true">Home</a>
-
-                    </li>
-                    <li class="nav-item">
-
-                        <a class="navbar-brand nav-link active link text-black display-4" id="pills-addjob-tab"
-                            data-toggle="pill" href="#pills-addjob" role="tab" aria-controls="pills-addjob"
-                            aria-selected="true">Add Job</a>
+                        <a class="navbar-brand nav-link link text-black display-4" id="pills-addjob-tab"
+                            data-toggle="pill" href="#pills-addjob" role="tab" aria-controls="pills-addjob">Add Job</a>
 
                     </li>
 
                     <li class="nav-item">
 
                         <a class="navbar-brand nav-link link text-black display-4" id="pills-viewjobs-tab"
-                            data-toggle="pill" href="#pills-viewjobs" role="tab" aria-controls="pills-viewjobs"
-                            aria-selected="false">View Jobs</a>
+                            data-toggle="pill" href="#pills-viewjobs" role="tab" aria-controls="pills-viewjobs">View
+                            Jobs</a>
 
                     </li>
 
                     <li class="nav-item">
 
                         <a class="nav-link link text-black display-4" id="pills-logout-tab" href="/logout" role="tab"
-                            aria-controls="pills-logout" aria-selected="false">Log Out</a>
+                            aria-controls="pills-logout">Log Out</a>
 
                     </li>
                 </ul>
@@ -78,57 +77,67 @@
 <section class="header1 cid-s48MCQYojq mbr-fullscreen mbr-parallax-background" id="header1-f">
     <div class="mbr-overlay" style="opacity: 0.8; background-color: rgb(255, 255, 255);"></div>
 
-    <div class=" container " 
-        style=" position: absolute;
-                margin: auto;
+    <div class=" container " style=" position: absolute;
+                margin: 0 auto;
+                margin-top: 45px;
+                padding-bottom: 10px;
                 top: 0;          
-                padding: 20px;">
-        <div class="row justify-content-center" >
-            <div class="col col-lg-10">
-
-                <%- include ('./partials/messages'); -%>
+               ">
+        <div class="row justify-content-center">
+            <div class="col">
                 <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade " id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" >
-                        <h1 class="mbr-section-title mbr-fonts-style mb-3 display-1">resume<strong>scheme</strong></h1>
-
-                        <p class="mbr-text mbr-fonts-style display-7">A better way to track potential talent, better way
-                            to find
-                            work.
+                    <%- include ('./partials/messages'); -%>
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                        aria-labelledby="pills-home-tab">
+                        <p class="mbr-text text-left mbr-fonts-style display-7">
+                            <strong><%= employer.company_name %></strong>, Welcome to your dashboard.
+                            <br> 
+                            <hr> 
+                            * New job? Click on "Add Job" Tab.
+                            <br> 
+                            * To see your listings, click on "View Jobs" Tab.
                         </p>
-                        <div class="mbr-section-btn mt-3"><a class="btn btn-success display-4" href="/register">Get
-                                Started</a>
-                        </div>
+                        <!-- <div class="mbr-section-btn mt-3"><a class="btn btn-success display-4" href="#pills-addjob"
+                                id="pills-home-tab" data-toggle="pill" role="tab" aria-controls="pills-addjob">New
+                                job?</a>
+                        </div> -->
                     </div>
-                    <div class="tab-pane fade show active " id="pills-addjob" role="tabpanel"
-                        aria-labelledby="pills-addjob-tab"  >
 
-                        <form action="/employer/post_job" method="POST" >
+                    <div class="tab-pane fade show " id="pills-addjob" role="tabpanel"
+                        aria-labelledby="pills-addjob-tab">
+
+                        <form action="/employer/post_job" method="POST">
 
                             <div class="row">
-                                <div class="col-md">
+                                <div class="col-sm">
                                     <input type="text" class="form-control" id="job_title" name="job_title"
                                         placeholder="Job Title"
                                         value="<%= typeof job_title != 'undefined' ? job_title : '' %>">
                                 </div>
-                                <div class="col-md">
+                                <div class="col-sm">
                                     <input type="text" class="form-control" id="job_type" name="job_type"
                                         placeholder="Job Type"
                                         value="<%= typeof job_type!= 'undefined' ? job_type : '' %>">
                                 </div>
-                                <div class="col-md"">
-                            <input type=" text" class="form-control" id=" job_category" name="job_category"
+                                <div class="col-sm">
+                                    <input type=" text" class="form-control" id=" job_category" name="job_category"
                                     placeholder="Job Category"
                                     value="<%= typeof job_category != 'undefined' ? job_category : '' %>">
                                 </div>
-                                <div class="col-md">
+                                <div class="col-sm">
                                     <input type="text" class="form-control" id="job_locations" name="job_locations"
                                         placeholder="Location(s)"
                                         value="<%= typeof job_locations != 'undefined' ? job_locations : '' %>">
                                 </div>
-                                <div class="col-md">
-                                    <input type="date" class="form-control" id="job_deadline" name="job_deadline"
-                                        placeholder="Deadline"
-                                        value="<%= typeof job_deadline!= 'undefined' ? job_deadline : '' %>">
+                                <div class="col-sm md-form md-outline input-with-post-icon "
+                                    style=" margin: 0 auto;  height: 50px;">
+
+                                    <input placeholder="Application Deadline" type="date" id="job_deadline"
+                                        name="job_deadline"
+                                        value="<%= typeof job_deadline!= 'undefined' ? job_deadline : '' %>"
+                                        class="col-sm display-7"
+                                        style=" background-color: rgba(255, 0, 0, 0.027); height: 50px;">
+                                    <label for="job_deadline" class="display-7">  Deadline</label>
                                 </div>
                             </div>
                             <br>
@@ -157,9 +166,9 @@
                             </button>
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="pills-viewjobs" role="tabpanel" aria-labelledby="pills-viewjobs-tab">
+                    <div class="tab-pane fade show" id="pills-viewjobs" role="tabpanel"
+                        aria-labelledby="pills-viewjobs-tab">
                         <div class="list-group">
-
                             <%- include ('./partials/jobs'); -%>
                         </div>
                     </div>
@@ -167,36 +176,4 @@
             </div>
         </div>
     </div>
-</section>
-
-
-
-
-<section class="footer3 cid-s48P1Icc8J" once="footers" id="footer3-i">
-    <div class="container">
-        <div class="media-container-row align-center mbr-white">
-            <div class="row row-links">
-                <ul class="foot-menu">
-                    <li class="foot-menu-item mbr-fonts-style display-7"><a href="#" class="text-success">Help
-                            Center</a></li>
-                    <li class="foot-menu-item mbr-fonts-style display-7"><a href="#" class="text-success">FAQ</a></li>
-                    <li class="foot-menu-item mbr-fonts-style display-7"><a href="#"
-                            class="text-success">ResumeScheme.com</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="row row-copirayt">
-                <p class="mbr-text mb-0 mbr-fonts-style mbr-white align-center display-7">
-                    © Copyright 2020 ResumeScheme, Inc. All Rights Reserved.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
-<section style="background-color: #fff; 
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; 
-    color:#aaa; font-size:12px; padding: 0; 
-    align-items: center; display: flex;">
-    <a href="https://mobirise.site/p" style="flex: 1 1; height: 3rem; padding-left: 1rem;"></a>
 </section>
