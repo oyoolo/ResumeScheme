@@ -14,7 +14,7 @@ Open path using:
 2.	If downloaded from GitHub, hold down the Shift key and right-click a folder. Open terminal in context menu with the entry, ‘Open command window here.” 
 3.	Paste the environment (*.env*) file attached into the project directory, it has the database password.
 
-######Terminal Instructions
+###### Terminal Instructions
 4.	`npm install` (Install project dependencies)
 5.	`npm run dev` (Start the server)
 6.	Open the app on http://localhost:3000
