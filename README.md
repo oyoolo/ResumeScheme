@@ -6,11 +6,11 @@ Demo can be found here: https://youtu.be/B7k37bEKgkQ
 This application needs NodeJS version 14 installed on the system.
 1.	Download zip from GitHub link below or clone the repo using:
 
-`Git clone https://github.com/oyoolo/ResumeScheme.git` 
+        `Git clone https://github.com/oyoolo/ResumeScheme.git` 
 
-Open path using:
+      Open path using:
 
-`cd ResumeScheme-master`
+        `cd ResumeScheme-master`
 
 2.	If downloaded from GitHub, hold down the Shift key and right-click a folder. Open terminal in context menu with the entry, ‘Open command window here.” 
 3.	Paste the environment (*.env*) file attached into the project directory, it has the database password.
