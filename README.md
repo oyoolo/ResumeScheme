@@ -20,7 +20,7 @@ Open path using:
 6.	Open the app on http://localhost:3000
 7.	The Admin Panel is does not need login, go to http://localhost:3000/admin
 
-Create an account or use any of these credentials
+Create an account or use any of these credentials:
 
 ##### Jobseekers:
 1. Email: jobseeker1@gmail.com Password: 1234
