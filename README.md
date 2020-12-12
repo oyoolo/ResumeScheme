@@ -22,7 +22,7 @@ Open path using:
 
 Create an account or use any of these credentials
 
-###### Jobseekers:
+##### Jobseekers:
 1. Email: jobseeker1@gmail.com Password: 1234
 1. Email: johndoe123@gmail.com Password: 1234
 1. Email: hudjohn@gmail.com Password: 1234
@@ -31,7 +31,7 @@ Create an account or use any of these credentials
 1. Email: johnwick@gmail.com Password: 1234
 1. Email: jeffjoe@gmail.com Password: 1234
 
-###### Employers:
+##### Employers:
 1. Email: techcompany1@gmail.com Password: 1234
 1. Email: techcompany2@gmail.com Password: 1234
 1. Email:  healthcarecomp1@gmail.com Password: 1234
