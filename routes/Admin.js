@@ -12,7 +12,7 @@ router.get("/query_suggestions", async (req, res) => {
   try {
     await new SystemController().suggestJobs();
     req.flash("success_msg", "New Suggestions Generated!");
-    res.render("adminpanel", { message: "New Suggestions Generated!" });
+    res.redirect("/admin");
   } catch (error) {
     req.flash("error_msg", error.stack);
   }
