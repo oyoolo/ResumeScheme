@@ -6,7 +6,9 @@ Any part of this project may not be used commercially without the permission of 
 #### Running Instructions
 This application needs NodeJS version 14 installed on the system.
 1.	Download zip from GitHub link below or clone the repo using:
+        
         `Git clone https://github.com/oyoolo/ResumeScheme.git`
+        
         Open path using:
         `cd ResumeScheme-master`
 2.	If downloaded from GitHub, hold down the Shift key and right-click a folder. Open terminal in context menu with the entry, ‘Open command window here.” 
