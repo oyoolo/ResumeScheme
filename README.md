@@ -1,5 +1,6 @@
 # ResumeScheme
-LSU Fall 2020 CSC 3380 Project
+LSU Fall 2020 CSC 3380 Project.
+Demo can be found here: https://youtu.be/B7k37bEKgkQ
 
 #### Running Instructions
 This application needs NodeJS version 14 installed on the system.
